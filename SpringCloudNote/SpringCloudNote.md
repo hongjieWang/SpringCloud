@@ -179,17 +179,17 @@
 
 ​		在父工程中，新建`Module`,module名称为`springcloud-api`
 
-![111801](/Users/wanghongjie/SpringCloud/SpringCloudNote/images/111801.png)
+![111801](images/111801.png)
 
 ​	
 
-![111802](/Users/wanghongjie/SpringCloud/SpringCloudNote/images/111802.png)
+![111802](images/111802.png)
 
 
 
 ​	创建完成后项目结构如下：
 
-![111803](/Users/wanghongjie/SpringCloud/SpringCloudNote/images/111803.png)
+![111803](images/111803.png)
 
 ​	新建包`cn.org.july.springcloudapi.entities`
 
@@ -383,7 +383,7 @@ public class User implements Serializable {
 
 在新建的Module中建立如下项目结构：
 
-![111804](/Users/wanghongjie/SpringCloud/SpringCloudNote/images/111804.png)
+![111804](images/111804.png)
 
 - 新建包路径`cn.org.july.springcloud.dao;cn.org.july.springcloud.service;cn.org.july.springcloud.controller;`。
 
@@ -538,7 +538,7 @@ public class User implements Serializable {
 
 - 启动后在浏览器中输入http://localhost:8001/user/all;返回内容如下，说明服务提供者搭建成功。
 
-  ![111601](/Users/wanghongjie/SpringCloud/SpringCloudNote/images/111601.png)
+  ![111601](images/111601.png)
 
 
 
@@ -548,7 +548,7 @@ public class User implements Serializable {
 
 创建过来不在详细讲述；创建完成后，项目结构目录如下：
 
-![111805](/Users/wanghongjie/SpringCloud/SpringCloudNote/images/111805.png)
+![111805](images/111805.png)
 
 - 在`springcloud-consumer-user-8000`中，新建包结构，`cn.org.july.springcloud.cfgbean;cn.org.july.springcloud.controller`.
 
@@ -625,9 +625,9 @@ public class User implements Serializable {
 
 - 首先启动服务提供者服务`springcloud-provider-user-8001`,在启动服务消费者`springcloud-consumer-user-8000`.服务启动成功后访问 http://localhost:8000/consumer/user/1；http://localhost:8000/consumer/user/all
 
-  ![111806](/Users/wanghongjie/SpringCloud/SpringCloudNote/images/111806.png)
+  ![111806](images/111806.png)
 
-  ![111807](/Users/wanghongjie/SpringCloud/SpringCloudNote/images/111807.png)
+  ![111807](images/111807.png)
 
   出现以上结果，服务消费者配置成功。该程序只做简单实例。
 
@@ -635,7 +635,7 @@ public class User implements Serializable {
 
 #### 5、服务的注册与发现
 
-![111808](/Users/wanghongjie/SpringCloud/SpringCloudNote/images/111808.png)
+![111808](images/111808.png)
 
 关系调用说明：
 
@@ -660,7 +660,7 @@ public class User implements Serializable {
 
 - 新创建一个`Module`,命名为`springcloud-eureka-7001`,项目结构如下：
 
-  ![111809](/Users/wanghongjie/SpringCloud/SpringCloudNote/images/111809.png)
+  ![111809](images/111809.png)
 
 - 修改pom.xml文件
 
@@ -730,10 +730,10 @@ public class User implements Serializable {
 
 - 启动后访问http://localhost:7001/ 出现如下页面服务注册中心搭建成功。
 
-  ![111810](/Users/wanghongjie/SpringCloud/SpringCloudNote/images/111810.png)
+  ![111810](images/111810.png)
 
   **注意**：标注红的的框框是 **No instances available** ，表示没有实例注册到该服务的注册中上。
 
-  ![111811](/Users/wanghongjie/SpringCloud/SpringCloudNote/images/111811.png)
+  ![111811](images/111811.png)
 
 过一段时间，不操作，刷新页面会看到一段红色的描述。这个不是错误，是Eureka的自我保护。后面我们详细讲解。
