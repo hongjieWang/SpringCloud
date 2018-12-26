@@ -93,7 +93,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Finchley.RELEASE</version>
+                <version>Finchley.SR2</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -443,10 +443,10 @@ public class User implements Serializable {
   SET FOREIGN_KEY_CHECKS = 0;
   
   -- ----------------------------
-  --  Table structure for `user_copy`
+  --  Table structure for `user`
   -- ----------------------------
-  DROP TABLE IF EXISTS `user_copy`;
-  CREATE TABLE `user_copy` (
+  DROP TABLE IF EXISTS `user`;
+  CREATE TABLE `user` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `userName` varchar(50) DEFAULT NULL,
     `dbSource` varchar(50) DEFAULT NULL,
@@ -460,7 +460,7 @@ public class User implements Serializable {
   --  Records of `user_copy`
   -- ----------------------------
   BEGIN;
-  INSERT INTO `user_copy` VALUES ('1', 'JULY', 'cloudDB01', '18232533234', 'july@163.com', '123456'), ('2', 'WHJ', 'cloudDB01', '12312312312', '123@qq.com', '123456');
+  INSERT INTO `user` VALUES ('1', 'JULY', 'cloudDB01', '18232533234', 'july@163.com', '123456'), ('2', 'WHJ', 'cloudDB01', '12312312312', '123@qq.com', '123456');
   COMMIT;
   
   SET FOREIGN_KEY_CHECKS = 1;
@@ -737,3 +737,169 @@ public class User implements Serializable {
   ![111811](images/111811.png)
 
 过一段时间，不操作，刷新页面会看到一段红色的描述。这个不是错误，是Eureka的自我保护。后面我们详细讲解。
+
+#### 7、将用户微服务注入Eureka注册中心
+
+##### 7.1、修改用户微服务`springcloud-provider-user-8001` 
+
+- **pom修改**
+
+  在原有pom.xml基础上新增一下内容：
+
+  ```xml
+  <!-- 将微服务provider侧注册进eureka -->
+  <dependency>
+     <groupId>org.springframework.cloud</groupId>
+     <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+  </dependency>
+  ```
+
+  修改后pom.xml全部内容:
+
+  ```xml
+  <?xml version="1.0" encoding="UTF-8"?>
+  <project xmlns="http://maven.apache.org/POM/4.0.0"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+      <parent>
+          <artifactId>springcloud</artifactId>
+          <groupId>cn.org.july.springcloud</groupId>
+          <version>1.0-SNAPSHOT</version>
+      </parent>
+      <modelVersion>4.0.0</modelVersion>
+  
+      <artifactId>springcloud-provider-user-8001</artifactId>
+      <dependencies>
+          <!-- 引入API -->
+          <dependency>
+              <groupId>cn.org.july.springcloud</groupId>
+              <artifactId>springcloud-api</artifactId>
+              <version>${project.version}</version>
+          </dependency>
+          <!-- 单元测试 -->
+          <dependency>
+              <groupId>junit</groupId>
+              <artifactId>junit</artifactId>
+          </dependency>
+          <!-- 数据源 -->
+          <dependency>
+              <groupId>com.alibaba</groupId>
+              <artifactId>druid</artifactId>
+          </dependency>
+          <!-- 数据库驱动-->
+          <dependency>
+              <groupId>mysql</groupId>
+              <artifactId>mysql-connector-java</artifactId>
+          </dependency>
+          <!-- 日志 -->
+          <dependency>
+              <groupId>ch.qos.logback</groupId>
+              <artifactId>logback-core</artifactId>
+          </dependency>
+          <!-- springBoot 集成 mybatis-->
+          <dependency>
+              <groupId>org.mybatis.spring.boot</groupId>
+              <artifactId>mybatis-spring-boot-starter</artifactId>
+          </dependency>
+          <!-- web模块 -->
+          <dependency>
+              <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-starter-web</artifactId>
+          </dependency>
+          <!-- 单元测试 -->
+          <dependency>
+              <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-starter-test</artifactId>
+          </dependency>
+  
+          <!-- 将微服务provider侧注册进eureka -->
+          <dependency>
+              <groupId>org.springframework.cloud</groupId>
+              <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+          </dependency>
+      </dependencies>
+  </project>
+  ```
+
+- **YML修改**
+
+  在原`application.yml`基础上新增一下内容：
+
+  ```yaml
+  eureka:
+    client:
+      serviceUrl:
+        defaultZone: http://localhost:7001/eureka/
+        registerWithEureka: true
+        fetchRegistry: true
+  ```
+
+  修改后全yml文件内容如下：
+
+  ```yaml
+  server:
+    port: 8001
+  mybatis:
+    type-aliases-package:  cn.org.july.springcloudapi.entities            #所以entity别名类所在路径
+  
+  spring:
+    application:
+      name: springcloud-user
+    datasource:
+      type: com.alibaba.druid.pool.DruidDataSource                        #当前数据源操作类型
+      driver-class-name: com.mysql.cj.jdbc.Driver                         #mysql驱动包
+      url: jdbc:mysql://127.0.0.1:3306/cloudDB01?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false                          #数据库连接
+      username: root
+      password: root
+      dbcp2:
+        min-idle: 5                                                       #数据库连接池的最小维持连接数
+        initial-size: 5                                                   #初始化连接数
+        max-total: 5                                                      #最大连接数
+        max-wait-millis: 200                                              #等待连接获取的最大超时时间
+  
+  eureka:
+    client:
+      serviceUrl:
+        defaultZone: http://localhost:7001/eureka/
+        registerWithEureka: true
+        fetchRegistry: true
+  
+  ```
+
+- 程序启动类Application_provider_8001修改：
+
+  在`Application_provider_8001`类中新增注解`@EnableEurekaClient`,
+
+  修改后信息如下：
+
+  ```java
+  @SpringBootApplication
+  @EnableEurekaClient //本服务启动后会自动注册进eureka服务中
+  @MapperScan(basePackages = "cn.org.july.springcloud")
+  public class Application_provider_8001 {
+      public static void main(String[] args) {
+          SpringApplication.run(Application_provider_8001.class, args);
+      }
+  }
+  ```
+
+  ##### 7.2、测试服务注入
+
+  1、首先启动Eureka服务。
+
+  2、启动用户微服务。
+
+  3、在浏览器中打开http://127.0.0.1:7001.
+
+  ![1545809279626](images\5C1545809279626.png)
+
+  可以看到，用户微服务注册成功。
+
+  Application 名称对应配置关系如下：
+
+  ![12312412312](images\12312412312.png)
+
+  ##### 7.3、问题
+
+
+
