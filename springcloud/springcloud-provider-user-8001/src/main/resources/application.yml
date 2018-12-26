@@ -24,4 +24,6 @@ eureka:
       defaultZone: http://localhost:7001/eureka/
       registerWithEureka: true
       fetchRegistry: true
-debug: true
+  instance:
+    instance-id: springcloud-user-8001
+    prefer-ip-address: true

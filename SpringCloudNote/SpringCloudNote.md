@@ -899,7 +899,13 @@ public class User implements Serializable {
 
   ![12312412312](images/12312412312.png)
 
-  ##### 7.3、问题
+  ##### 7.3、注册微服务信息完善
+
+  问题：
+
+  ​	
+
+  ![1545834346573](images/5C1545834346573.png)
 
 
 
