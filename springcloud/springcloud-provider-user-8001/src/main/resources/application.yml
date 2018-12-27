@@ -21,9 +21,13 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:7001/eureka/
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
       registerWithEureka: true
       fetchRegistry: true
   instance:
     instance-id: springcloud-user-8001
     prefer-ip-address: true
+
+info:
+  app.name: springcloud-user
+  company.name: www.july.com

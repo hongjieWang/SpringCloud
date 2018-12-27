@@ -1,5 +1,5 @@
 server:
-  port: 7001
+  port: 7003
 
 eureka:
   instance:
@@ -8,7 +8,7 @@ eureka:
     registerWithEureka: false
     fetchRegistry: false
     serviceUrl:
-      defaultZone: http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/  # 单点http://${eureka.instance.hostname}:${server.port}/eureka/
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/  # 单点http://${eureka.instance.hostname}:${server.port}/eureka/
 
 spring:
   application:
