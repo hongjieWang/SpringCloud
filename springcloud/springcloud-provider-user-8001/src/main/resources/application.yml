@@ -31,3 +31,5 @@ eureka:
 info:
   app.name: springcloud-user
   company.name: www.july.com
+  build.artifactId: springcloud
+  build.version: 1.0-SNAPSHOT

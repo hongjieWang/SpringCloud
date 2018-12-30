@@ -1,4 +1,4 @@
-#Spring Cloud 笔记
+## Spring Cloud 笔记
 
 ![SpringCloud](images/20180509173652926.png)
 
@@ -740,172 +740,536 @@ public class User implements Serializable {
 
 #### 7、将用户微服务注入Eureka注册中心
 
-##### 7.1、修改用户微服务`springcloud-provider-user-8001` 
+##### 7.1、修改用户微服务
 
-- **pom修改**
+**pom修改**
 
-  在原有pom.xml基础上新增一下内容：
+在原有pom.xml基础上新增一下内容：
 
-  ```xml
-  <!-- 将微服务provider侧注册进eureka -->
-  <dependency>
-     <groupId>org.springframework.cloud</groupId>
-     <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-  </dependency>
-  ```
+```xml
+<!-- 将微服务provider侧注册进eureka -->
+<dependency>
+   <groupId>org.springframework.cloud</groupId>
+   <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+</dependency>
+```
 
-  修改后pom.xml全部内容:
+修改后pom.xml全部内容:
 
-  ```xml
-  <?xml version="1.0" encoding="UTF-8"?>
-  <project xmlns="http://maven.apache.org/POM/4.0.0"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-      <parent>
-          <artifactId>springcloud</artifactId>
-          <groupId>cn.org.july.springcloud</groupId>
-          <version>1.0-SNAPSHOT</version>
-      </parent>
-      <modelVersion>4.0.0</modelVersion>
-  
-      <artifactId>springcloud-provider-user-8001</artifactId>
-      <dependencies>
-          <!-- 引入API -->
-          <dependency>
-              <groupId>cn.org.july.springcloud</groupId>
-              <artifactId>springcloud-api</artifactId>
-              <version>${project.version}</version>
-          </dependency>
-          <!-- 单元测试 -->
-          <dependency>
-              <groupId>junit</groupId>
-              <artifactId>junit</artifactId>
-          </dependency>
-          <!-- 数据源 -->
-          <dependency>
-              <groupId>com.alibaba</groupId>
-              <artifactId>druid</artifactId>
-          </dependency>
-          <!-- 数据库驱动-->
-          <dependency>
-              <groupId>mysql</groupId>
-              <artifactId>mysql-connector-java</artifactId>
-          </dependency>
-          <!-- 日志 -->
-          <dependency>
-              <groupId>ch.qos.logback</groupId>
-              <artifactId>logback-core</artifactId>
-          </dependency>
-          <!-- springBoot 集成 mybatis-->
-          <dependency>
-              <groupId>org.mybatis.spring.boot</groupId>
-              <artifactId>mybatis-spring-boot-starter</artifactId>
-          </dependency>
-          <!-- web模块 -->
-          <dependency>
-              <groupId>org.springframework.boot</groupId>
-              <artifactId>spring-boot-starter-web</artifactId>
-          </dependency>
-          <!-- 单元测试 -->
-          <dependency>
-              <groupId>org.springframework.boot</groupId>
-              <artifactId>spring-boot-starter-test</artifactId>
-          </dependency>
-  
-          <!-- 将微服务provider侧注册进eureka -->
-          <dependency>
-              <groupId>org.springframework.cloud</groupId>
-              <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-          </dependency>
-      </dependencies>
-  </project>
-  ```
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>springcloud</artifactId>
+        <groupId>cn.org.july.springcloud</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
 
-- **YML修改**
+    <artifactId>springcloud-provider-user-8001</artifactId>
+    <dependencies>
+        <!-- 引入API -->
+        <dependency>
+            <groupId>cn.org.july.springcloud</groupId>
+            <artifactId>springcloud-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- 单元测试 -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <!-- 数据源 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+        </dependency>
+        <!-- 数据库驱动-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <!-- 日志 -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+        </dependency>
+        <!-- springBoot 集成 mybatis-->
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- web模块 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- 单元测试 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
 
-  在原`application.yml`基础上新增一下内容：
+        <!-- 将微服务provider侧注册进eureka -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+    </dependencies>
+</project>
+```
 
-  ```yaml
-  eureka:
-    client:
-      serviceUrl:
-        defaultZone: http://localhost:7001/eureka/
-        registerWithEureka: true
-        fetchRegistry: true
-  ```
+**YML修改**
 
-  修改后全yml文件内容如下：
+在原`application.yml`基础上新增一下内容：
 
-  ```yaml
-  server:
-    port: 8001
-  mybatis:
-    type-aliases-package:  cn.org.july.springcloudapi.entities            #所以entity别名类所在路径
-  
-  spring:
-    application:
-      name: springcloud-user
-    datasource:
-      type: com.alibaba.druid.pool.DruidDataSource                        #当前数据源操作类型
-      driver-class-name: com.mysql.cj.jdbc.Driver                         #mysql驱动包
-      url: jdbc:mysql://127.0.0.1:3306/cloudDB01?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false                          #数据库连接
-      username: root
-      password: root
-      dbcp2:
-        min-idle: 5                                                       #数据库连接池的最小维持连接数
-        initial-size: 5                                                   #初始化连接数
-        max-total: 5                                                      #最大连接数
-        max-wait-millis: 200                                              #等待连接获取的最大超时时间
-  
-  eureka:
-    client:
-      serviceUrl:
-        defaultZone: http://localhost:7001/eureka/
-        registerWithEureka: true
-        fetchRegistry: true
-  
-  ```
+```yaml
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:7001/eureka/
+      registerWithEureka: true
+      fetchRegistry: true
+```
 
-- 程序启动类Application_provider_8001修改：
+修改后全yml文件内容如下：
 
-  在`Application_provider_8001`类中新增注解`@EnableEurekaClient`,
+```yaml
+server:
+  port: 8001
+mybatis:
+  type-aliases-package:  cn.org.july.springcloudapi.entities            #所以entity别名类所在路径
 
-  修改后信息如下：
+spring:
+  application:
+    name: springcloud-user
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource                        #当前数据源操作类型
+    driver-class-name: com.mysql.cj.jdbc.Driver                         #mysql驱动包
+    url: jdbc:mysql://127.0.0.1:3306/cloudDB01?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false                          #数据库连接
+    username: root
+    password: root
+    dbcp2:
+      min-idle: 5                                                       #数据库连接池的最小维持连接数
+      initial-size: 5                                                   #初始化连接数
+      max-total: 5                                                      #最大连接数
+      max-wait-millis: 200                                              #等待连接获取的最大超时时间
 
-  ```java
-  @SpringBootApplication
-  @EnableEurekaClient //本服务启动后会自动注册进eureka服务中
-  @MapperScan(basePackages = "cn.org.july.springcloud")
-  public class Application_provider_8001 {
-      public static void main(String[] args) {
-          SpringApplication.run(Application_provider_8001.class, args);
-      }
-  }
-  ```
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:7001/eureka/
+      registerWithEureka: true
+      fetchRegistry: true
 
-  ##### 7.2、测试服务注入
+```
 
-  1、首先启动Eureka服务。
+程序启动类Application_provider_8001修改：
 
-  2、启动用户微服务。
+在`Application_provider_8001`类中新增注解`@EnableEurekaClient`,
 
-  3、在浏览器中打开http://127.0.0.1:7001.
+修改后信息如下：
 
-  ![1545809279626](images/5C1545809279626.png)
+```java
+@SpringBootApplication
+@EnableEurekaClient //本服务启动后会自动注册进eureka服务中
+@MapperScan(basePackages = "cn.org.july.springcloud")
+public class Application_provider_8001 {
+    public static void main(String[] args) {
+        SpringApplication.run(Application_provider_8001.class, args);
+    }
+}
+```
 
-  可以看到，用户微服务注册成功。
+##### 7.2、测试服务注入
 
-  Application 名称对应配置关系如下：
+1、首先启动Eureka服务。
 
-  ![12312412312](images/12312412312.png)
+2、启动用户微服务。
 
-  ##### 7.3、注册微服务信息完善
+3、在浏览器中打开http://127.0.0.1:7001.
 
-  问题：
+![1545809279626](images/5C1545809279626.png)
 
-  ​	
+可以看到，用户微服务注册成功。
 
-  ![1545834346573](images/5C1545834346573.png)
+Application 名称对应配置关系如下：
 
+![12312412312](images/12312412312.png) 
 
+##### 7.3、注册微服务信息完善
+
+问题：
+
+![1545834346573](images/5C1545834346573.png)
+
+1、修复 问题一 不显示服务名称问题:
+
+​	修改`springcloud-provider-user-8001`服务中的yml文件，新增 `instance-id: springcloud-user-8001` 重新启动服务，问题修改完成。
+
+```yaml
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+      registerWithEureka: true
+      fetchRegistry: true
+  instance:
+    instance-id: springcloud-user-8001
+```
+
+2、修复问题二 不显示Ip地址：
+
+​	修改`springcloud-provider-user-8001` 服务yml文件，新增 `prefer-ip-address: true` 节点，全部内容如下：
+
+```yaml
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+      registerWithEureka: true
+      fetchRegistry: true
+  instance:
+    instance-id: springcloud-user-8001
+    prefer-ip-address: true
+```
+
+重启服务，问题修改完成。
+
+3、点击服务名称，页面跳转404页面。
+
+​	修复方案如下：
+
+​	a、修改`springcloud-provider-user-8001`服务pom文件新增如下内容：
+
+```xaml
+<dependency>
+     <groupId>org.springframework.boot</groupId>
+     <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+```
+
+​	完整pom文件
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>springcloud</artifactId>
+        <groupId>cn.org.july.springcloud</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>springcloud-provider-user-8001</artifactId>
+    <dependencies>
+        <!-- 引入API -->
+        <dependency>
+            <groupId>cn.org.july.springcloud</groupId>
+            <artifactId>springcloud-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- 单元测试 -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <!-- 数据源 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+        </dependency>
+        <!-- 数据库驱动-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <!-- 日志 -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+        </dependency>
+        <!-- springBoot 集成 mybatis-->
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- web模块 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- 单元测试 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+
+        <!-- actuator监控信息完善 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <!-- 将微服务provider侧注册进eureka -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+
+    </dependencies>
+
+</project>
+```
+
+​	b、修改`springcloud-provider-user-8001` yml文件修改内容如下：新增info节点
+
+```yaml
+info:
+  app.name: springcloud-user
+  company.name: www.july.com
+  build.artifactId: springcloud
+  build.version: 1.0-SNAPSHOT
+```
+
+完整yml文件如下：
+
+```yaml
+server:
+  port: 8001
+mybatis:
+  type-aliases-package:  cn.org.july.springcloudapi.entities            #所以entity别名类所在路径
+
+spring:
+  application:
+    name: springcloud-user
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource                        #当前数据源操作类型
+    driver-class-name: com.mysql.cj.jdbc.Driver                         #mysql驱动包
+    url: jdbc:mysql://127.0.0.1:3306/cloudDB01?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false                          #数据库连接
+    username: root
+    password: root
+    dbcp2:
+      min-idle: 5                                                       #数据库连接池的最小维持连接数
+      initial-size: 5                                                   #初始化连接数
+      max-total: 5                                                      #最大连接数
+      max-wait-millis: 200                                              #等待连接获取的最大超时时间
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+      registerWithEureka: true
+      fetchRegistry: true
+  instance:
+    instance-id: springcloud-user-8001
+    prefer-ip-address: true
+
+info:
+  app.name: springcloud-user
+  company.name: www.july.com
+  build.artifactId: springcloud
+  build.version: 1.0-SNAPSHOT
+```
+
+问题修复完成，看下修改效果：
+
+![1546084962042](images/5C1546084962042.png)
+
+点击服务名称，显示我们自己定义的服务信息。
+
+![1546085014693](images/5C1546085014693.png)
+
+#### 8、Eureka集群搭建
+
+CAP原则(CAP定理)： 
+CAP原则又称CAP定理，指的是在一个分布式系统中， Consistency（一致性）、 Availability（可用性）、Partition tolerance（分区容错性），三者不可得兼。 
+CAP原则是NOSQL数据库的基石。Consistency（一致性）。 Availability（可用性）。Partition tolerance（分区容错性）。 
+分布式系统的CAP理论：理论首先把分布式系统中的三个特性进行了如下归纳： 
+一致性（C）：在分布式系统中的所有数据备份，在同一时刻是否同样的值。（等同于所有节点访问同一份最新的数据副本） 
+可用性（A）：在集群中一部分节点故障后，集群整体是否还能响应客户端的读写请求。（对数据更新具备高可用性） 
+
+分区容忍性（P）：以实际效果而言，分区相当于对通信的时限要求。系统如果不能在时限内达成数据一致性，就意味着发生了分区的情况，必须就当前操作在C和A之间做出选择。 
+
+##### 8.1、集群搭建
+
+​	新建`springcloud-eureka-7002,`springcloud-eureka-7003`服务。copy  `springcloud-eureka-7001`中配置。修改服务启动端口分别为7002，7003。修改系统主启动类。
+
+修改内容如下：
+
+​	**系统启动类**：
+
+​	`springcloud-eureka-7001`
+
+```java
+@SpringBootApplication
+@EnableEurekaServer
+public class ApplicationEureka7001 {
+    public static void main(String[] args) {
+        SpringApplication.run(ApplicationEureka7001.class, args);
+    }
+}
+```
+
+​	`springcloud-eureka-7002`
+
+```java
+@SpringBootApplication
+@EnableEurekaServer
+public class ApplicationEureka7002 {
+    public static void main(String[] args) {
+        SpringApplication.run(ApplicationEureka7002.class, args);
+    }
+}
+```
+
+​	`springcloud-eureka-7003`
+
+```java
+@SpringBootApplication
+@EnableEurekaServer
+public class ApplicationEureka7003 {
+
+    public static void main(String[] args) {
+        SpringApplication.run(ApplicationEureka7003.class, args);
+    }
+}
+```
+
+##### 8.2、修改映射配置
+
+修改系统hosts文件
+
+![1546138768899](images/5C1546138768899.png)
+
+新增如下信息：
+
+```xml
+127.0.0.1 eureka7001.com
+127.0.0.1 eureka7002.com
+127.0.0.1 eureka7003.com
+```
+
+![1546138859024](images/5C1546138859024.png)
+
+##### 8.3、修改服务配置yml
+
+​	`springcloud-eureka-7001`
+
+```yaml
+server:
+  port: 7001
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/  # 单点http://${eureka.instance.hostname}:${server.port}/eureka/
+      
+spring:
+  application:
+    name: eurka-server
+```
+
+​	`springcloud-eureka-7002`
+
+```yaml
+server:
+  port: 7002
+
+eureka:
+  instance:
+    hostname: eureka7002.com
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7003.com:7003/eureka/  # 单点http://${eureka.instance.hostname}:${server.port}/eureka/
+
+spring:
+  application:
+    name: eurka-server
+```
+
+​	`springcloud-eureka-7003`
+
+```yaml
+server:
+  port: 7003
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/  # 单点http://${eureka.instance.hostname}:${server.port}/eureka/
+
+spring:
+  application:
+    name: eurka-server
+```
+
+##### 8.4、修改服务提供者`springcloud-provider-user-8001`配置
+
+​	将之前单点连接替换成集群地址，完整yml文件如下：
+
+```yaml
+server:
+  port: 8001
+mybatis:
+  type-aliases-package:  cn.org.july.springcloudapi.entities            #所以entity别名类所在路径
+
+spring:
+  application:
+    name: springcloud-user
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource                        #当前数据源操作类型
+    driver-class-name: com.mysql.cj.jdbc.Driver                         #mysql驱动包
+    url: jdbc:mysql://127.0.0.1:3306/cloudDB01?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false                          #数据库连接
+    username: root
+    password: root
+    dbcp2:
+      min-idle: 5                                                       #数据库连接池的最小维持连接数
+      initial-size: 5                                                   #初始化连接数
+      max-total: 5                                                      #最大连接数
+      max-wait-millis: 200                                              #等待连接获取的最大超时时间
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+      registerWithEureka: true
+      fetchRegistry: true
+  instance:
+    instance-id: springcloud-user-8001
+    prefer-ip-address: true
+
+info:
+  app.name: springcloud-user
+  company.name: www.july.com
+  build.artifactId: springcloud
+  build.version: 1.0-SNAPSHOT
+```
+
+启动Eureka服务，启动服务提供者服务，在浏览器中输入 http://127.0.0.1:7001
+
+![1546150262668](images/5C1546150262668.png)
+
+访问http://127.0.0.1:7002
+
+![1546150316366](images/5C1546150316366.png)
+
+访问 http://127.0.0.1:7003
+
+![1546150369825](images/5C1546150369825.png)
+
+​	我们可以看到，访问任一节点都可以看到微服务`springcloud-provider-user-8001` 注册成功，并Eureka关联另外两个节点信息。故我们的eureka集群搭建成功。
 
