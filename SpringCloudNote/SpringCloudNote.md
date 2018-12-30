@@ -1,3 +1,7 @@
+---
+typora-copy-images-to: images
+---
+
 ## Spring Cloud 笔记
 
 ![SpringCloud](images/20180509173652926.png)
@@ -631,9 +635,9 @@ public class User implements Serializable {
 
   出现以上结果，服务消费者配置成功。该程序只做简单实例。
 
+### 二 、Eureka服务注册与发现
 
-
-#### 5、服务的注册与发现
+#### 1、服务的注册与发现
 
 ![111808](images/111808.png)
 
@@ -648,7 +652,7 @@ public class User implements Serializable {
 - 消费者从提供者中调用服务
 
 
-#### 6、启动eureka注册中心
+#### 2、启动eureka注册中心
 
 ​	Eureka是Spring Cloud Netflix微服务套件中的一部分，可以与Springboot构建的微服务很容易的整合起来。
 ​	Eureka包含了服务器端和客户端组件。服务器端，也被称作是服务注册中心，用于提供服务的注册与发现。
@@ -738,9 +742,9 @@ public class User implements Serializable {
 
 过一段时间，不操作，刷新页面会看到一段红色的描述。这个不是错误，是Eureka的自我保护。后面我们详细讲解。
 
-#### 7、将用户微服务注入Eureka注册中心
+#### 3、将用户微服务注入Eureka注册中心
 
-##### 7.1、修改用户微服务
+##### 3.1、修改用户微服务
 
 **pom修改**
 
@@ -883,7 +887,7 @@ public class Application_provider_8001 {
 }
 ```
 
-##### 7.2、测试服务注入
+##### 3.2、测试服务注入
 
 1、首先启动Eureka服务。
 
@@ -899,7 +903,7 @@ Application 名称对应配置关系如下：
 
 ![12312412312](images/12312412312.png) 
 
-##### 7.3、注册微服务信息完善
+##### 3.3、注册微服务信息完善
 
 问题：
 
@@ -1083,7 +1087,7 @@ info:
 
 ![1546085014693](images/5C1546085014693.png)
 
-#### 8、Eureka集群搭建
+#### 4、Eureka集群搭建
 
 CAP原则(CAP定理)： 
 CAP原则又称CAP定理，指的是在一个分布式系统中， Consistency（一致性）、 Availability（可用性）、Partition tolerance（分区容错性），三者不可得兼。 
@@ -1094,7 +1098,7 @@ CAP原则是NOSQL数据库的基石。Consistency（一致性）。 Availability
 
 分区容忍性（P）：以实际效果而言，分区相当于对通信的时限要求。系统如果不能在时限内达成数据一致性，就意味着发生了分区的情况，必须就当前操作在C和A之间做出选择。 
 
-##### 8.1、集群搭建
+##### 4.1、集群搭建
 
 ​	新建`springcloud-eureka-7002,`springcloud-eureka-7003`服务。copy  `springcloud-eureka-7001`中配置。修改服务启动端口分别为7002，7003。修改系统主启动类。
 
@@ -1139,7 +1143,7 @@ public class ApplicationEureka7003 {
 }
 ```
 
-##### 8.2、修改映射配置
+##### 4.2、修改映射配置
 
 修改系统hosts文件
 
@@ -1155,7 +1159,7 @@ public class ApplicationEureka7003 {
 
 ![1546138859024](images/5C1546138859024.png)
 
-##### 8.3、修改服务配置yml
+##### 4.3、修改服务配置yml
 
 ​	`springcloud-eureka-7001`
 
@@ -1217,7 +1221,7 @@ spring:
     name: eurka-server
 ```
 
-##### 8.4、修改服务提供者`springcloud-provider-user-8001`配置
+##### 4.4、修改服务提供者`springcloud-provider-user-8001`配置
 
 ​	将之前单点连接替换成集群地址，完整yml文件如下：
 
@@ -1272,4 +1276,413 @@ info:
 ![1546150369825](images/5C1546150369825.png)
 
 ​	我们可以看到，访问任一节点都可以看到微服务`springcloud-provider-user-8001` 注册成功，并Eureka关联另外两个节点信息。故我们的eureka集群搭建成功。
+
+###  三、Ribbon负载均衡
+
+​	Spring Cloud Ribbon是基于Netflix Ribbon实现的一套**客户端**负载均衡的工具。
+
+​	简单的说，Ribbon是Netflix发布的开源项目，主要功能是提供客户端的软件负载均衡算法，将Netflix的中间层服务连接在一起。Ribbon客户端组件提供一系列完善的配置项如连接超时，重试等。简单的说，就是在配置文件中列出Load Balancer（简称LB）后面所有的机器，Ribbon会自动的帮助你基于某种规则（如简单轮询，随机连接等）去连接这些机器。我们也很容易使用Ribbon实现自定义的负载均衡算法。、
+
+​	LB，即负载均衡(Load Balance)，在微服务或分布式集群中经常用的一种应用。
+​	负载均衡简单的说就是将用户的请求平摊的分配到多个服务上，从而达到系统的HA。
+​	常见的负载均衡有软件Nginx，LVS，硬件 F5等。
+​	相应的在中间件，例如：dubbo和SpringCloud中均给我们提供了负载均衡，SpringCloud的负载均衡算法可以自定义。
+
+**集中式LB**
+
+​	即在服务的消费方和提供方之间使用独立的LB设施(可以是硬件，如F5, 也可以是软件，如nginx), 由该设施负责把访问请求通过某种策略转发至服务的提供方；
+
+**进程内LB**
+
+​	将LB逻辑集成到消费方，消费方从服务注册中心获知有哪些地址可用，然后自己再从这些地址中选择出一个合适的服务器。**Ribbon就属于进程内LB**，它只是一个类库，集成于消费方进程，消费方通过它来获取到服务提供方的地址。
+
+#### 3.1、Ribbon配置
+
+##### 3.1.1、修改客户端消费者服务
+
+​	修改消费者`springcloud-consumer-user-80` 服务。
+
+**修改pom文件**
+
+​	在客户端`springcloud-consumer-user-80` pom.xml中新增一下内容：
+
+```xml
+<!-- Eureka相关 -->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+</dependency>
+<!-- Ribbon相关 -->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
+</dependency>
+```
+
+完整pom.xml文件
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>springcloud</artifactId>
+        <groupId>cn.org.july.springcloud</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>springcloud-consumer-user-80</artifactId>
+    <description>用户消费者</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>cn.org.july.springcloud</groupId>
+            <artifactId>springcloud-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Eureka相关 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <!-- Ribbon相关 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
+        </dependency>
+    </dependencies>
+</project>
+```
+
+##### 3.1.2、修改application.yml
+
+追加eureka的服务注册地址
+
+```yaml
+eureka:
+  client:
+    register-with-eureka: false
+    service-url: 
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+```
+
+完整yml文件
+
+```yaml
+server:
+  port: 8000
+
+eureka:
+  client:
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+```
+
+##### 3.1.3、对ConfigBean进行修订
+
+修改ConfigBean进行新注解，增加`@LoadBalanced`注解。完整内容如下：
+
+```java
+@Configuration
+public class ConfigBean {
+    @Bean
+    @LoadBalanced  #新增LoadBalanced注解
+    public RestTemplate getRestTemplate(){
+        return new RestTemplate();
+    }
+}
+```
+
+##### 3.1.4、修改主启动类
+
+修改主启动类，新增Eureka注解，完整内容如下：
+
+```java
+@SpringBootApplication
+@EnableEurekaClient
+public class Application_consumer_8000 {
+    public static void main(String[] args) {
+        SpringApplication.run(Application_consumer_8000.class, args);
+    }
+}
+```
+
+##### 3.1.5、修改客户端访问类
+
+修改客户端访问类`UserController_Consumer`类，将原来访问服务提供者地址改为服务提供者名称。
+
+```java
+@RestController
+public class UserController_Consumer {
+
+//    private static final String url = "http://localhost:8001/";
+    private static final String url = "http://SPRINGCLOUD-USER/";
+
+    /**
+     * RestTemplate 提供了多种便捷访问远程HTTP服务的方法
+     * 是一种简单便捷的访问restful服务模版类，是Spring提供的用于访问
+     * Rest服务的客户端模版工具集
+     */
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @RequestMapping(value = "/consumer/user/all")
+    @ResponseBody
+    public List getUserAll() {
+        return restTemplate.getForObject(url.concat("user/all"), List.class);
+    }
+
+    @RequestMapping(value = "/consumer/user/{id}")
+    @ResponseBody
+    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
+        return restTemplate.getForEntity(url.concat("user/").concat(id.toString()), User.class);
+    }
+}
+```
+
+**Ribbon和Eureka整合后Consumer可以直接调用服务而不用再关心地址和端口号**
+
+##### 3.1.6、测试
+
+​	启动Eureka服务集群，启动服务提供者，启动服务消费者。访问http://127.0.0.1:8000/consumer/user/all
+
+返回如下内容：
+
+![1546167498033](images/5C1546167498033.png)
+
+![1546167756506](images/5C1546167756506.png)
+
+如我们访问成功返回，并在控制台打印Ribbon服务信息，至此：Ribbon配置成功。
+
+#### 3.2、Ribbon负载均衡
+
+##### 3.2.1、架构原理
+
+![1546168950722](images/5C1546168950722.png)
+
+​	Ribbon在工作时分成两步
+​	第一步先选择 EurekaServer ,它优先选择在同一个区域内负载较少的server。
+​	第二步再根据用户指定的策略，在从server取到的服务注册列表中选择一个地址。
+​	其中Ribbon提供了多种策略：比如轮询、随机和根据响应时间加权。
+
+##### 3.2.2、新增服务提供者
+
+新建Module
+
+​	新建服务提供者`springcloud-provider-user-8002`和`springcloud-provider-user-8003` 。**其他内容COPY服务提供者`springcloud-provider-user-8001`**
+
+新建Module名称分别为`springcloud-provider-user-8002`，`springcloud-provider-user-8003`。
+
+**新建数据库**
+
+​	新建两个服务的数据，分别为`cloudDB02,`cloudDB03`。
+
+数据库`cloudDB02`数据库脚本如下：
+
+```sql
+DROP DATABASE IF EXISTS cloudDB02;
+ 
+CREATE DATABASE cloudDB02 CHARACTER SET UTF8;
+ 
+USE cloudDB02;
+
+SET NAMES utf8;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+--  Table structure for `user`
+-- ----------------------------
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userName` varchar(50) DEFAULT NULL,
+  `dbSource` varchar(50) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `pwd` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+--  Records of `user_copy`
+-- ----------------------------
+BEGIN;
+INSERT INTO `user` VALUES ('1', 'JULY', DATABASE(), '18232533234', 'july@163.com', '123456'), ('2', 'WHJ', DATABASE(), '12312312312', '123@qq.com', '123456');
+COMMIT;
+
+SET FOREIGN_KEY_CHECKS = 1;
+```
+
+数据库`cloudDB03`数据库脚本如下：
+
+```sql
+DROP DATABASE IF EXISTS cloudDB03;
+ 
+CREATE DATABASE cloudDB03 CHARACTER SET UTF8;
+ 
+USE cloudDB03;
+
+SET NAMES utf8;
+SET FOREIGN_KEY_CHECKS = 0;
+-- ----------------------------
+--  Table structure for `user`
+-- ----------------------------
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userName` varchar(50) DEFAULT NULL,
+  `dbSource` varchar(50) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `pwd` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+--  Records of `user_copy`
+-- ----------------------------
+BEGIN;
+INSERT INTO `user` VALUES ('1', 'JULY', DATABASE(), '18232533234', 'july@163.com', '123456'), ('2', 'WHJ', DATABASE(), '12312312312', '123@qq.com', '123456');
+COMMIT;
+
+SET FOREIGN_KEY_CHECKS = 1;
+```
+
+**修改YML文件**
+
+修改微服务`8002` yml文件，主要修改一下内容：
+
+​	1、服务端口号改为 8002
+
+​	2、数据库连接改为连接cloudDB02数据库
+
+​	3、Eureka注册服务名称改成`springcloud-user-8002`
+
+修改后yml文件全部内容：
+
+```yaml
+server:
+  port: 8002
+mybatis:
+  type-aliases-package:  cn.org.july.springcloudapi.entities            #所以entity别名类所在路径
+
+spring:
+  application:
+    name: springcloud-user
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource                        #当前数据源操作类型
+    driver-class-name: com.mysql.cj.jdbc.Driver                         #mysql驱动包
+    url: jdbc:mysql://127.0.0.1:3306/cloudDB02?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false                          #数据库连接
+    username: root
+    password: root
+    dbcp2:
+      min-idle: 5                                                       #数据库连接池的最小维持连接数
+      initial-size: 5                                                   #初始化连接数
+      max-total: 5                                                      #最大连接数
+      max-wait-millis: 200                                              #等待连接获取的最大超时时间
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+      registerWithEureka: true
+      fetchRegistry: true
+  instance:
+    instance-id: springcloud-user-8002
+    prefer-ip-address: true
+
+info:
+  app.name: springcloud-user
+  company.name: www.july.com
+  build.artifactId: springcloud
+  build.version: 1.0-SNAPSHOT
+```
+
+修改微服务`8003` yml文件，主要修改一下内容：
+
+​	1、服务端口号改为 8003
+
+​	2、数据库连接改为连接cloudDB03数据库
+
+​	3、Eureka注册服务名称改成`springcloud-user-8003`
+
+修改后yml文件全部内容：
+
+```yaml
+server:
+  port: 8003
+mybatis:
+  type-aliases-package:  cn.org.july.springcloudapi.entities            #所以entity别名类所在路径
+
+spring:
+  application:
+    name: springcloud-user
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource                        #当前数据源操作类型
+    driver-class-name: com.mysql.cj.jdbc.Driver                         #mysql驱动包
+    url: jdbc:mysql://127.0.0.1:3306/cloudDB03?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false                          #数据库连接
+    username: root
+    password: root
+    dbcp2:
+      min-idle: 5                                                       #数据库连接池的最小维持连接数
+      initial-size: 5                                                   #初始化连接数
+      max-total: 5                                                      #最大连接数
+      max-wait-millis: 200                                              #等待连接获取的最大超时时间
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+      registerWithEureka: true
+      fetchRegistry: true
+  instance:
+    instance-id: springcloud-user-8003
+    prefer-ip-address: true
+
+info:
+  app.name: springcloud-user
+  company.name: www.july.com
+  build.artifactId: springcloud
+  build.version: 1.0-SNAPSHOT
+```
+
+注：**`spring.application.name=springcloud-user` 名称一定要相同。**
+
+![1546171722768](images/5C1546171722768.png)
+
+##### 3.2.3、测试
+
+1、启动eureka集群
+
+2、启动三个服务提供者。
+
+​	打开浏览器分别访问 http://127.0.0.1:8001/user/all
+
+![1546171941081](images/5C1546171941081.png)
+
+​	打开浏览器分别访问 http://127.0.0.1:8002/user/all
+
+![1546172001794](images/5C1546172001794.png)
+
+​	打开浏览器分别访问 http://127.0.0.1:8003/user/all
+
+![1546172053451](images/5C1546172053451.png)
+
+三个服务启动成功。
+
+3、启动消费者服务
+
+​	打开浏览器访问http://127.0.0.1:8000/consumer/user/all
+
+![457qr-8jel6](images/457qr-8jel6.gif)
+
+我们可以看到，刷新页面注意观察看到返回的数据库名字，各不相同，负载均衡实现。
 

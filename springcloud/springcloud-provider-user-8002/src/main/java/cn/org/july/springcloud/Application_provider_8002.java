@@ -1,13 +1,17 @@
 package cn.org.july.springcloud;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
 @EnableEurekaClient
-public class Application_consumer_8000 {
+@MapperScan(basePackages = "cn.org.july.springcloud")
+public class Application_provider_8002 {
+
     public static void main(String[] args) {
-        SpringApplication.run(Application_consumer_8000.class, args);
+        SpringApplication.run(Application_provider_8002.class, args);
     }
+
 }

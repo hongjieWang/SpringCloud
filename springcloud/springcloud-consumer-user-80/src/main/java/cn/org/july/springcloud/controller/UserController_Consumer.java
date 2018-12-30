@@ -14,7 +14,8 @@ import java.util.List;
 @RestController
 public class UserController_Consumer {
 
-    private static final String url = "http://localhost:8001/";
+//    private static final String url = "http://localhost:8001/";
+    private static final String url = "http://SPRINGCLOUD-USER/";
 
     /**
      * RestTemplate 提供了多种便捷访问远程HTTP服务的方法
@@ -27,13 +28,13 @@ public class UserController_Consumer {
     @RequestMapping(value = "/consumer/user/all")
     @ResponseBody
     public List getUserAll() {
-        return restTemplate.getForObject(url.concat("user/all"), List.class);
+        return restTemplate.getForObject(url.concat("/user/all"), List.class);
     }
 
     @RequestMapping(value = "/consumer/user/{id}")
     @ResponseBody
     public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
-        return restTemplate.getForEntity(url.concat("user/").concat(id.toString()), User.class);
+        return restTemplate.getForEntity(url.concat("/user/").concat(id.toString()), User.class);
     }
 
 }
