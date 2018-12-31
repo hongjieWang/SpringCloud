@@ -1686,3 +1686,118 @@ info:
 
 我们可以看到，刷新页面注意观察看到返回的数据库名字，各不相同，负载均衡实现。
 
+#### 3.3、Ribbon核心组件IRule
+
+##### 3.3.1、解析IRule自带的7种算法
+
+| **内置负载均衡规则类**    | **规则描述**                                                 |
+| ------------------------- | ------------------------------------------------------------ |
+| RoundRobinRule            | 简单轮询服务列表来选择服务器。它是Ribbon默认的负载均衡规则。 |
+| AvailabilityFilteringRule | 对以下两种服务器进行忽略：（1）在默认情况下，这台服务器如果3次连接失败，这台服务器就会被设置为“短路”状态。短路状态将持续30秒，如果再次连接失败，短路的持续时间就会几何级地增加。注意：可以通过修改配置loadbalancer.<clientName>.connectionFailureCountThreshold来修改连接失败多少次之后被设置为短路状态。默认是3次。（2）并发数过高的服务器。如果一个服务器的并发连接数过高，配置了AvailabilityFilteringRule规则的客户端也会将其忽略。并发连接数的上线，可以由客户端的<clientName>.<clientConfigNameSpace>.ActiveConnectionsLimit属性进行配置。 |
+| WeightedResponseTimeRule  | 为每一个服务器赋予一个权重值。服务器响应时间越长，这个服务器的权重就越小。这个规则会随机选择服务器，这个权重值会影响服务器的选择。 |
+| ZoneAvoidanceRule         | 以区域可用的服务器为基础进行服务器的选择。使用Zone对服务器进行分类，这个Zone可以理解为一个机房、一个机架等。 |
+| BestAvailableRule         | 忽略哪些短路的服务器，并选择并发数较低的服务器。             |
+| RandomRule                | 随机选择一个可用的服务器。                                   |
+| RetryRule                 | 重试机制的选择逻辑，先按照RoundRobinRule的策略获取服务，如果获取服务失败则在指定时间内会进行重试，获取可用的服务。 |
+|                           |                                                              |
+
+##### 3.3.2、切换负载均衡策略
+
+​	默认的负载均衡策略为轮询测试，修改默认的策略变为随机。
+
+修改`springcloud-consumer-user-80`消费者`ConfigBean` 新增如下内容
+
+```java
+@Bean
+    public IRule myRule() {
+        /**
+         * 随机算法获取服务
+         */
+        return new RandomRule();
+    }
+```
+
+如需换用其他策略，只需要`new XXX策略()` 即可。
+
+完整的java文件内容如下：
+
+```java
+@Configuration
+public class ConfigBean {
+
+    @Bean
+    @LoadBalanced
+    public RestTemplate getRestTemplate() {
+        return new RestTemplate();
+    }
+    @Bean
+    public IRule myRule() {
+        /**
+         * 随机算法获取服务
+         */
+        return new RandomRule();
+    }
+}
+```
+
+##### 3.3.3、自定义负载均衡策略
+
+​	实现依据权重实在自定义负载均衡策略，规则如下： 服务提供者 8001，8002，8003 按照 2：3：5的权重提供相应的服务。下面我实现代码
+
+```java
+/**
+ * 服务提供者 按照 2：3：5的权重实现负载均衡策略
+ *
+ * @author goodboy
+ * @date 20181231
+ */
+public class MyWeightRule implements IRule {
+
+    private ILoadBalancer balancer = new BaseLoadBalancer();
+    private static int number = 0;
+
+    @Override
+    public Server choose(Object o) {
+        List<Server> allServers = balancer.getAllServers();
+        number++;
+        if (number <= 2) { //当 number=1,2时访问8001服务
+            return findServer(allServers, 8001);
+        } else if (number <= 5) { //当 number= 3,4,5时访问 8002服务
+            return findServer(allServers, 8002);
+        }
+        if (number == 10) { //当 number = 10 时重置为 0 开始另一轮的轮询
+            number = 0;
+        }
+        return findServer(allServers, 8003); //当number > 5 时访问8003服务
+    }
+
+    @Override
+    public void setLoadBalancer(ILoadBalancer iLoadBalancer) {
+        this.balancer = iLoadBalancer;
+    }
+
+    @Override
+    public ILoadBalancer getLoadBalancer() {
+        return this.balancer;
+    }
+
+    private Server findServer(List<Server> allServers, int port) {
+        for (Server server : allServers) {
+            if (server.getPort() == port) {
+                return server;
+            }
+        }
+        return null;
+    }
+}
+```
+
+注：以上方法中number为固定1-10，我们可以使用一下方式来代替
+
+```java
+Random random = new Random();
+final int number = random.nextInt(10);
+```
+
+
+
