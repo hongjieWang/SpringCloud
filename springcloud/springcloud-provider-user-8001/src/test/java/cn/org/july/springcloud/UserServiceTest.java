@@ -2,7 +2,7 @@ package cn.org.july.springcloud;
 
 
 import cn.org.july.springcloud.service.UserService;
-import cn.org.july.springcloudapi.entities.User;
+import cn.org.july.springcloud.api.entities.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

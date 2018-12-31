@@ -85,6 +85,7 @@
         <module>springcloud-authentica-9000</module>
         <module>springcloud-provider-user-8002</module>
         <module>springcloud-provider-user-8003</module>
+        <module>springcloud-consumer-user-feign-8010</module>
     </modules>
 
     <build>

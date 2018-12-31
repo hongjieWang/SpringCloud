@@ -1,7 +1,5 @@
 package cn.org.july.springcloud.cfgbean;
 
-import cn.org.july.springcloud.rule.MyWeightRule;
-import com.netflix.loadbalancer.IRule;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,12 +14,5 @@ public class ConfigBean {
         return new RestTemplate();
     }
 
-    @Bean
-    public IRule myRule() {
-        /**
-         * 随机算法获取服务
-         */
-        return new MyWeightRule();
-    }
 
 }

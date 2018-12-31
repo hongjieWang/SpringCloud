@@ -1,4 +1,4 @@
-package cn.org.july.springcloudapi.entities;
+package cn.org.july.springcloud.api.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

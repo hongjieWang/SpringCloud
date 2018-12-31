@@ -1,7 +1,7 @@
 package cn.org.july.springcloud.service;
 
 import cn.org.july.springcloud.dao.UserDao;
-import cn.org.july.springcloudapi.entities.User;
+import cn.org.july.springcloud.api.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

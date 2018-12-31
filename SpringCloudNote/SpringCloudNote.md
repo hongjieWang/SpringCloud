@@ -1799,5 +1799,118 @@ Random random = new Random();
 final int number = random.nextInt(10);
 ```
 
+### 四、Feign负载均衡
+
+ 	Feign是一个声明式WebService客户端。使用Feign能让编写Web Service客户端更加简单, 它的使用方法是定义一个接口，然后在上面添加注解，同时也支持JAX-RS标准的注解。Feign也支持可拔插式的编码器和解码器。Spring Cloud对Feign进行了封装，使其支持了Spring MVC标准注解和HttpMessageConverters。Feign可以与Eureka和Ribbon组合使用以支持负载均衡。
+
+​	Feign是一个声明式的Web服务客户端，使得编写Web服务客户端变得非常容易，只需要创建一个接口，然后在上面添加注解即可。
+
+**Feign能干什么**
+​	Feign旨在使编写Java Http客户端变得更容易。
+​	前面在使用Ribbon+RestTemplate时，利用RestTemplate对http请求的封装处理，形成了一套模版化的调用方法。但是在实际开发中，由于对服务依赖的调用可能不止一处，**往往一个接口会被多处调用，所以通常都会针对每个微服务自行封装一些客户端类来包装这些依赖服务的调用**。所以，Feign在此基础上做了进一步封装，由他来帮助我们定义和实现依赖服务接口的定义。在Feign的实现下，**我们只需创建一个接口并使用注解的方式来配置它(以前是Dao接口上面标注Mapper注解,现在是一个微服务接口上面标注一个Feign注解即可)**，即可完成对服务提供方的接口绑定，简化了使用Spring cloud Ribbon时，自动封装服务调用客户端的开发量。
+
+#### 4.1、Feign集成了Ribbon
+
+​	利用Ribbon维护了springcloud-api的服务列表信息，并且通过轮询实现了客户端的负载均衡。而与Ribbon不同的是，通过feign只需要定义服务绑定接口且以声明式的方法，优雅而简单的实现了服务调用。
+
+##### 4.1.1、修改API工程
+
+​	**修改pom.xml**
+
+​	新增对feign的依赖，这里需注意版本2.x。
+
+```xml
+<!-- Feign相关 -->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-openfeign</artifactId>
+</dependency>
+```
+
+**新增接口**
+
+​	新增接口`UserClientService`接口，内容如下：
+
+```java
+@FeignClient(value = "SPRINGCLOUD-USER")
+public interface UserClientService {
+    @RequestMapping(value = "/user/{id}",method = RequestMethod.GET)
+    User findById(@PathVariable("id") Long id);
+    @RequestMapping(value = "/user/all",method = RequestMethod.GET)
+    List<User> findAll();
+}
+```
+
+##### 4.1.2、新建Module
+
+​	新增工程`springcloud-consumer-user-feign`,端口8010，参考`springcloud-consumer-user-80`工程信息。
+
+**修改pom.xml**
+
+​	新增对feign的依赖，这里需注意版本2.x。
+
+```xml
+!-- Feign相关 -->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-openfeign</artifactId>
+</dependency>
+```
+
+**修改`UserController_Consumer`**
+
+​	修改`UserController_Consumer`将之前使用`RestTemplate` 模板调用方式改为使用`UserClientService`调用，修改内容如下：
+
+```java
+@RestController
+public class UserController_Consumer {
+
+    @Autowired
+    private UserClientService userClientService;
+
+    @RequestMapping(value = "/consumer/user/all")
+    @ResponseBody
+    public List getUserAll() {
+        return userClientService.findAll();
+    }
+    @RequestMapping(value = "/consumer/user/{id}")
+    @ResponseBody
+    public User getUserById(@PathVariable("id") Long id) {
+        return userClientService.findById(id);
+    }
+}
+```
+
+**修改系统启动类**
+
+​	修改`Application_consumer_8010`类，开启Feign注解。完整内容如下：
+
+```java
+@SpringBootApplication
+@EnableEurekaClient
+@EnableFeignClients(basePackages= {"cn.org.july.springcloud"})
+public class Application_consumer_8010 {
+    public static void main(String[] args) {
+        SpringApplication.run(Application_consumer_8010.class, args);
+    }
+}
+```
+
+##### 4.1.3、测试
+
+​	1、启动Eureka集群。
+
+​	2、启动服务提供者。
+
+​	3、启动`Application_consumer_8010`。
+
+​	4、打开浏览器访问http://127.0.0.1:8010/consumer/user/all
+
+![1546250049338](images/1546250049338.png)
+
+Feign配置成功，并支持负载均衡策略。
+
+
+
 
 

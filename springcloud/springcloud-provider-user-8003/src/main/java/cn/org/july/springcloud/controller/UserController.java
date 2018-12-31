@@ -1,7 +1,7 @@
 package cn.org.july.springcloud.controller;
 
 import cn.org.july.springcloud.service.UserService;
-import cn.org.july.springcloudapi.entities.User;
+import cn.org.july.springcloud.api.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

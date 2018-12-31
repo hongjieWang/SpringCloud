@@ -1,6 +1,6 @@
 package cn.org.july.springcloud.dao;
 
-import cn.org.july.springcloudapi.entities.User;
+import cn.org.july.springcloud.api.entities.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
