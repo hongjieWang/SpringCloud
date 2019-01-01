@@ -86,6 +86,7 @@
         <module>springcloud-provider-user-8002</module>
         <module>springcloud-provider-user-8003</module>
         <module>springcloud-consumer-user-feign-8010</module>
+        <module>springcloud-web</module>
     </modules>
 
     <build>
