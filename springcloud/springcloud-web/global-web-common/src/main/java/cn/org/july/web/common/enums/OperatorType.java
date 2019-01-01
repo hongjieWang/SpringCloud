@@ -2,11 +2,10 @@ package cn.org.july.web.common.enums;
 
 /**
  * 操作人类别
- * 
- * @author ruoyi
+ *
+ * @author july
  */
-public enum OperatorType
-{
+public enum OperatorType {
     /**
      * 其它
      */

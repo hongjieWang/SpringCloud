@@ -2,11 +2,10 @@ package cn.org.july.web.common.constant;
 
 /**
  * 通用常量信息
- * 
- * @author ruoyi
+ *
+ * @author july
  */
-public class Constants
-{
+public class Constants {
     /**
      * UTF-8 字符集
      */

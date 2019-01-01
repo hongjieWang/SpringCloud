@@ -2,11 +2,10 @@ package cn.org.july.web.common.enums;
 
 /**
  * 数据源
- * 
- * @author ruoyi
+ *
+ * @author july
  */
-public enum DataSourceType
-{
+public enum DataSourceType {
     /**
      * 主库
      */

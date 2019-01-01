@@ -2,11 +2,10 @@ package cn.org.july.web.common.enums;
 
 /**
  * 操作状态
- * 
- * @author ruoyi
+ *
+ * @author july
  */
-public enum BusinessStatus
-{
+public enum BusinessStatus {
     /**
      * 成功
      */
