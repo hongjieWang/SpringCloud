@@ -54,6 +54,7 @@ spring:
       # 热部署开关
       enabled: true
 
+
 # MyBatis
 mybatis:
   # 搜索指定包别名

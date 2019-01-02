@@ -21,6 +21,7 @@ import java.util.Map;
 @Configuration
 public class DruidConfig {
     @Bean
+    @Primary
     @ConfigurationProperties("spring.datasource.druid.master")
     public DataSource masterDataSource() {
         return DruidDataSourceBuilder.create().build();
@@ -34,7 +35,6 @@ public class DruidConfig {
     }
 
     @Bean(name = "dynamicDataSource")
-    @Primary
     public DynamicDataSource dataSource(DataSource masterDataSource, DataSource slaveDataSource) {
         Map<Object, Object> targetDataSources = new HashMap<>();
         targetDataSources.put(DataSourceType.MASTER.name(), masterDataSource);
