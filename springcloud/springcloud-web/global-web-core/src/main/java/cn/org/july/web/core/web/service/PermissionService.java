@@ -4,9 +4,9 @@ import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 
 /**
- * RuoYi首创 js调用 thymeleaf 实现按钮权限可见性
+ * 实现按钮权限可见性
  *
- * @author ruoyi
+ * @author july
  */
 @Service("permission")
 public class PermissionService {

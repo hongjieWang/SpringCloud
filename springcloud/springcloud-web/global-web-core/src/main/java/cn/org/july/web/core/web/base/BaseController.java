@@ -1,15 +1,16 @@
 package cn.org.july.web.core.web.base;
 
+import cn.org.july.web.common.base.AjaxResult;
+import cn.org.july.web.common.page.PageDomain;
+import cn.org.july.web.common.page.TableDataInfo;
+import cn.org.july.web.common.utils.DateUtils;
+import cn.org.july.web.common.utils.StringUtils;
+import cn.org.july.web.core.util.ShiroUtils;
+import cn.org.july.web.core.web.page.TableSupport;
+import cn.org.july.web.system.entitis.SysUser;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.ruoyi.common.base.AjaxResult;
-import com.ruoyi.common.page.PageDomain;
-import com.ruoyi.common.page.TableDataInfo;
-import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.framework.util.ShiroUtils;
-import com.ruoyi.framework.web.page.TableSupport;
-import com.ruoyi.system.domain.SysUser;
+
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
@@ -20,7 +21,7 @@ import java.util.List;
 /**
  * web层通用数据处理
  *
- * @author ruoyi
+ * @author july
  */
 public class BaseController {
     /**

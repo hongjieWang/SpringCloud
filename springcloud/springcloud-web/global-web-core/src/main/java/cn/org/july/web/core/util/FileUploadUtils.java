@@ -1,8 +1,9 @@
 package cn.org.july.web.core.util;
 
-import com.ruoyi.common.config.Global;
-import com.ruoyi.common.exception.file.FileNameLengthLimitExceededException;
-import com.ruoyi.common.utils.Md5Utils;
+
+import cn.org.july.web.common.config.Global;
+import cn.org.july.web.common.exception.file.FileNameLengthLimitExceededException;
+import cn.org.july.web.common.utils.Md5Utils;
 import org.apache.tomcat.util.http.fileupload.FileUploadBase.FileSizeLimitExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,7 +13,7 @@ import java.io.IOException;
 /**
  * 文件上传工具类
  * 
- * @author ruoyi
+ * @author july
  */
 public class FileUploadUtils
 {

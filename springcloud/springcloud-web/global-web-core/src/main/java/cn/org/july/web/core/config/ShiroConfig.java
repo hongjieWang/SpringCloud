@@ -2,6 +2,15 @@ package cn.org.july.web.core.config;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import cn.org.july.web.common.utils.StringUtils;
+import cn.org.july.web.core.shiro.realm.UserRealm;
+import cn.org.july.web.core.shiro.session.OnlineSessionDAO;
+import cn.org.july.web.core.shiro.session.OnlineSessionFactory;
+import cn.org.july.web.core.shiro.web.filter.captcha.CaptchaValidateFilter;
+import cn.org.july.web.core.shiro.web.filter.online.OnlineSessionFilter;
+import cn.org.july.web.core.shiro.web.filter.sync.SyncOnlineSessionFilter;
+import cn.org.july.web.core.shiro.web.session.OnlineWebSessionManager;
+import cn.org.july.web.core.shiro.web.session.SpringSessionValidationScheduler;
+import cn.org.july.web.system.service.ISysMenuService;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
@@ -29,43 +38,63 @@ import java.util.Map;
 public class ShiroConfig {
     public static final String PREMISSION_STRING = "perms[\"{0}\"]";
 
-    // Session超时时间，单位为毫秒（默认30分钟）
+    /**
+     * Session超时时间，单位为毫秒（默认30分钟）
+     */
     @Value("${shiro.session.expireTime}")
     private int expireTime;
 
-    // 相隔多久检查一次session的有效性，单位毫秒，默认就是10分钟
+    /**
+     * 相隔多久检查一次session的有效性，单位毫秒，默认就是10分钟
+     */
     @Value("${shiro.session.validationInterval}")
     private int validationInterval;
 
-    // 验证码开关
+    /**
+     * 验证码开关
+     */
     @Value("${shiro.user.captchaEnabled}")
     private boolean captchaEnabled;
 
-    // 验证码类型
+    /**
+     * 验证码类型
+     */
     @Value("${shiro.user.captchaType}")
     private String captchaType;
 
-    // 设置Cookie的域名
+    /**
+     * 设置Cookie的域名
+     */
     @Value("${shiro.cookie.domain}")
     private String domain;
 
-    // 设置cookie的有效访问路径
+    /**
+     * 设置cookie的有效访问路径
+     */
     @Value("${shiro.cookie.path}")
     private String path;
 
-    // 设置HttpOnly属性
+    /**
+     * 设置HttpOnly属性
+     */
     @Value("${shiro.cookie.httpOnly}")
     private boolean httpOnly;
 
-    // 设置Cookie的过期时间，秒为单位
+    /**
+     * 设置Cookie的过期时间，秒为单位
+     */
     @Value("${shiro.cookie.maxAge}")
     private int maxAge;
 
-    // 登录地址
+    /**
+     * 登录地址
+     */
     @Value("${shiro.user.loginUrl}")
     private String loginUrl;
 
-    // 权限认证失败地址
+    /**
+     * 权限认证失败地址
+     */
     @Value("${shiro.user.unauthorizedUrl}")
     private String unauthorizedUrl;
 
@@ -74,7 +103,7 @@ public class ShiroConfig {
      */
     @Bean
     public EhCacheManager getEhCacheManager() {
-        net.sf.ehcache.CacheManager cacheManager = net.sf.ehcache.CacheManager.getCacheManager("ruoyi");
+        net.sf.ehcache.CacheManager cacheManager = net.sf.ehcache.CacheManager.getCacheManager("july");
         EhCacheManager em = new EhCacheManager();
         if (StringUtils.isNull(cacheManager)) {
             em.setCacheManagerConfigFile("classpath:ehcache/ehcache-shiro.xml");
@@ -85,6 +114,7 @@ public class ShiroConfig {
         }
     }
 
+
     /**
      * 自定义Realm
      */
@@ -94,6 +124,7 @@ public class ShiroConfig {
         userRealm.setCacheManager(cacheManager);
         return userRealm;
     }
+
 
     /**
      * 自定义sessionDAO会话
@@ -196,7 +227,7 @@ public class ShiroConfig {
      */
     public LogoutFilter logoutFilter() {
         LogoutFilter logoutFilter = new LogoutFilter();
-        logoutFilter.setLoginUrl(loginUrl);
+//        logoutFilter.setLoginUrl(loginUrl);
         return logoutFilter;
     }
 

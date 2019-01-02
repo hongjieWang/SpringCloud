@@ -2,15 +2,12 @@ package cn.org.july.web.core.web.exception.user;
 
 /**
  * 用户锁定异常类
- * 
- * @author ruoyi
+ *
+ * @author july
  */
-public class UserBlockedException extends UserException
-{
-    private static final long serialVersionUID = 1L;
+public class UserBlockedException extends UserException {
 
-    public UserBlockedException(String reason)
-    {
-        super("user.blocked", new Object[] { reason });
+    public UserBlockedException(String reason) {
+        super("user.blocked", new Object[]{reason});
     }
 }

@@ -3,6 +3,7 @@ package cn.org.july.web.core.aspectj;
 
 import cn.org.july.web.common.annotation.DataSource;
 import cn.org.july.web.common.utils.StringUtils;
+import cn.org.july.web.core.datasource.DynamicDataSourceContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -17,7 +18,7 @@ import java.lang.reflect.Method;
 /**
  * 多数据源处理
  *
- * @author ruoyi
+ * @author july
  */
 @Aspect
 @Order(1)

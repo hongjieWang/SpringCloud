@@ -2,15 +2,12 @@ package cn.org.july.web.core.web.exception.user;
 
 /**
  * 用户账号已被删除
- * 
- * @author ruoyi
+ *
+ * @author july
  */
-public class UserDeleteException extends UserException
-{
-    private static final long serialVersionUID = 1L;
+public class UserDeleteException extends UserException {
 
-    public UserDeleteException()
-    {
+    public UserDeleteException() {
         super("user.password.delete", null);
     }
 }

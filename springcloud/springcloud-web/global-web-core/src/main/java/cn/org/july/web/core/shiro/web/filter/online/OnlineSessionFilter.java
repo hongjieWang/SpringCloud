@@ -1,11 +1,12 @@
 package cn.org.july.web.core.shiro.web.filter.online;
 
-import com.ruoyi.common.constant.ShiroConstants;
-import com.ruoyi.common.enums.OnlineStatus;
-import com.ruoyi.framework.shiro.session.OnlineSession;
-import com.ruoyi.framework.shiro.session.OnlineSessionDAO;
-import com.ruoyi.framework.util.ShiroUtils;
-import com.ruoyi.system.domain.SysUser;
+
+import cn.org.july.web.common.constant.ShiroConstants;
+import cn.org.july.web.common.enums.OnlineStatus;
+import cn.org.july.web.core.shiro.session.OnlineSession;
+import cn.org.july.web.core.shiro.session.OnlineSessionDAO;
+import cn.org.july.web.core.util.ShiroUtils;
+import cn.org.july.web.system.entitis.SysUser;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
@@ -20,7 +21,7 @@ import java.io.IOException;
 /**
  * 自定义访问控制
  *
- * @author ruoyi
+ * @author july
  */
 public class OnlineSessionFilter extends AccessControlFilter {
     /**

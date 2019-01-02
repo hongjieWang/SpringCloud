@@ -3,6 +3,9 @@ package cn.org.july.web.core.shiro.realm;
 import cn.org.july.web.core.shiro.service.SysLoginService;
 import cn.org.july.web.core.util.ShiroUtils;
 import cn.org.july.web.core.web.exception.user.*;
+import cn.org.july.web.system.entitis.SysUser;
+import cn.org.july.web.system.service.ISysMenuService;
+import cn.org.july.web.system.service.ISysRoleService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -12,6 +15,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
 

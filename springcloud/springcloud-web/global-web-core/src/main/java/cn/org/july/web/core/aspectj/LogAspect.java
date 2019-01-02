@@ -3,6 +3,13 @@ package cn.org.july.web.core.aspectj;
 import cn.org.july.web.common.annotation.Log;
 import cn.org.july.web.common.enums.BusinessStatus;
 import cn.org.july.web.common.json.JSON;
+import cn.org.july.web.common.utils.StringUtils;
+import cn.org.july.web.core.manager.AsyncManager;
+import cn.org.july.web.core.manager.factory.AsyncFactory;
+import cn.org.july.web.core.util.ServletUtils;
+import cn.org.july.web.core.util.ShiroUtils;
+import cn.org.july.web.system.entitis.SysOperLog;
+import cn.org.july.web.system.entitis.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
@@ -12,7 +19,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
-import org.thymeleaf.util.StringUtils;
+
 
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -20,14 +27,16 @@ import java.util.Map;
 /**
  * 操作日志记录处理
  *
- * @author ruoyi
+ * @author july
  */
 @Aspect
 @Component
 @Slf4j
 public class LogAspect {
 
-    // 配置织入点
+    /**
+     * 配置织入点
+     */
     @Pointcut("@annotation(cn.org.july.web.common.annotation.Log)")
     public void logPointCut() {
     }

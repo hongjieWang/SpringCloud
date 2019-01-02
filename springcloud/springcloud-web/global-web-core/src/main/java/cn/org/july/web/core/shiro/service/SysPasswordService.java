@@ -1,12 +1,13 @@
 package cn.org.july.web.core.shiro.service;
 
-import com.ruoyi.common.constant.Constants;
-import com.ruoyi.framework.manager.AsyncManager;
-import com.ruoyi.framework.manager.factory.AsyncFactory;
-import com.ruoyi.framework.util.MessageUtils;
-import com.ruoyi.framework.web.exception.user.UserPasswordNotMatchException;
-import com.ruoyi.framework.web.exception.user.UserPasswordRetryLimitExceedException;
-import com.ruoyi.system.domain.SysUser;
+
+import cn.org.july.web.common.constant.Constants;
+import cn.org.july.web.core.manager.AsyncManager;
+import cn.org.july.web.core.manager.factory.AsyncFactory;
+import cn.org.july.web.core.util.MessageUtils;
+import cn.org.july.web.core.web.exception.user.UserPasswordNotMatchException;
+import cn.org.july.web.core.web.exception.user.UserPasswordRetryLimitExceedException;
+import cn.org.july.web.system.entitis.SysUser;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -20,7 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * 登录密码方法
  *
- * @author ruoyi
+ * @author july
  */
 @Component
 public class SysPasswordService {

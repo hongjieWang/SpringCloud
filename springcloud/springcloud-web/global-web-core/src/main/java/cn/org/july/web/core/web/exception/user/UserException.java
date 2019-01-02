@@ -1,18 +1,16 @@
 package cn.org.july.web.core.web.exception.user;
 
-import com.ruoyi.framework.web.exception.base.BaseException;
+
+import cn.org.july.web.core.web.exception.base.BaseException;
 
 /**
  * 用户信息异常类
- * 
- * @author ruoyi
+ *
+ * @author july
  */
-public class UserException extends BaseException
-{
-    private static final long serialVersionUID = 1L;
+public class UserException extends BaseException {
 
-    public UserException(String code, Object[] args)
-    {
+    public UserException(String code, Object[] args) {
         super("user", code, args, null);
     }
 }

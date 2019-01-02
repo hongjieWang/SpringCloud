@@ -1,7 +1,8 @@
 package cn.org.july.web.core.config;
 
 import cn.org.july.web.common.enums.DataSourceType;
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder
+import cn.org.july.web.core.datasource.DynamicDataSource;
+import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;

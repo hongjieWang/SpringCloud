@@ -1,18 +1,18 @@
 package cn.org.july.web.core.shiro.service;
 
-import com.ruoyi.common.constant.Constants;
-import com.ruoyi.common.constant.ShiroConstants;
-import com.ruoyi.common.constant.UserConstants;
-import com.ruoyi.common.enums.UserStatus;
-import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.framework.manager.AsyncManager;
-import com.ruoyi.framework.manager.factory.AsyncFactory;
-import com.ruoyi.framework.util.MessageUtils;
-import com.ruoyi.framework.util.ServletUtils;
-import com.ruoyi.framework.util.ShiroUtils;
-import com.ruoyi.framework.web.exception.user.*;
-import com.ruoyi.system.domain.SysUser;
-import com.ruoyi.system.service.ISysUserService;
+import cn.org.july.web.common.constant.Constants;
+import cn.org.july.web.common.constant.ShiroConstants;
+import cn.org.july.web.common.constant.UserConstants;
+import cn.org.july.web.common.enums.UserStatus;
+import cn.org.july.web.common.utils.DateUtils;
+import cn.org.july.web.core.manager.AsyncManager;
+import cn.org.july.web.core.manager.factory.AsyncFactory;
+import cn.org.july.web.core.util.MessageUtils;
+import cn.org.july.web.core.util.ServletUtils;
+import cn.org.july.web.core.util.ShiroUtils;
+import cn.org.july.web.core.web.exception.user.*;
+import cn.org.july.web.system.entitis.SysUser;
+import cn.org.july.web.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -20,7 +20,7 @@ import org.springframework.util.StringUtils;
 /**
  * 登录校验方法
  *
- * @author ruoyi
+ * @author july
  */
 @Component
 public class SysLoginService {

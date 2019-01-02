@@ -1,18 +1,19 @@
 package cn.org.july.web.core.manager.factory;
 
-import com.ruoyi.common.constant.Constants;
-import com.ruoyi.common.utils.AddressUtils;
-import com.ruoyi.framework.shiro.session.OnlineSession;
-import com.ruoyi.framework.util.LogUtils;
-import com.ruoyi.framework.util.ServletUtils;
-import com.ruoyi.framework.util.ShiroUtils;
-import com.ruoyi.framework.util.SpringUtils;
-import com.ruoyi.system.domain.SysLogininfor;
-import com.ruoyi.system.domain.SysOperLog;
-import com.ruoyi.system.domain.SysUserOnline;
-import com.ruoyi.system.service.ISysOperLogService;
-import com.ruoyi.system.service.ISysUserOnlineService;
-import com.ruoyi.system.service.impl.SysLogininforServiceImpl;
+
+import cn.org.july.web.common.constant.Constants;
+import cn.org.july.web.common.utils.AddressUtils;
+import cn.org.july.web.core.shiro.session.OnlineSession;
+import cn.org.july.web.core.util.LogUtils;
+import cn.org.july.web.core.util.ServletUtils;
+import cn.org.july.web.core.util.ShiroUtils;
+import cn.org.july.web.core.util.SpringUtils;
+import cn.org.july.web.system.entitis.SysLoginInfo;
+import cn.org.july.web.system.entitis.SysOperLog;
+import cn.org.july.web.system.entitis.SysUserOnline;
+import cn.org.july.web.system.service.ISysOperLogService;
+import cn.org.july.web.system.service.ISysUserOnlineService;
+import cn.org.july.web.system.service.impl.SysLoginInfoServiceImpl;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,21 +101,21 @@ public class AsyncFactory {
                 // 获取客户端浏览器
                 String browser = userAgent.getBrowser().getName();
                 // 封装对象
-                SysLogininfor logininfor = new SysLogininfor();
-                logininfor.setLoginName(username);
-                logininfor.setIpaddr(ip);
-                logininfor.setLoginLocation(AddressUtils.getRealAddressByIP(ip));
-                logininfor.setBrowser(browser);
-                logininfor.setOs(os);
-                logininfor.setMsg(message);
+                SysLoginInfo loginInfo = new SysLoginInfo();
+                loginInfo.setLoginName(username);
+                loginInfo.setIpaddr(ip);
+                loginInfo.setLoginLocation(AddressUtils.getRealAddressByIP(ip));
+                loginInfo.setBrowser(browser);
+                loginInfo.setOs(os);
+                loginInfo.setMsg(message);
                 // 日志状态
                 if (Constants.LOGIN_SUCCESS.equals(status) || Constants.LOGOUT.equals(status)) {
-                    logininfor.setStatus(Constants.SUCCESS);
+                    loginInfo.setStatus(Constants.SUCCESS);
                 } else if (Constants.LOGIN_FAIL.equals(status)) {
-                    logininfor.setStatus(Constants.FAIL);
+                    loginInfo.setStatus(Constants.FAIL);
                 }
                 // 插入数据
-                SpringUtils.getBean(SysLogininforServiceImpl.class).insertLogininfor(logininfor);
+                SpringUtils.getBean(SysLoginInfoServiceImpl.class).insertLoginInfo(loginInfo);
             }
         };
     }

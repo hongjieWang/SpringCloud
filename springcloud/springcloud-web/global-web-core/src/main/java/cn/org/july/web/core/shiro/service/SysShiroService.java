@@ -1,9 +1,10 @@
 package cn.org.july.web.core.shiro.service;
 
-import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.framework.shiro.session.OnlineSession;
-import com.ruoyi.system.domain.SysUserOnline;
-import com.ruoyi.system.service.ISysUserOnlineService;
+import cn.org.july.web.common.utils.StringUtils;
+import cn.org.july.web.core.shiro.session.OnlineSession;
+import cn.org.july.web.system.entitis.SysUserOnline;
+import cn.org.july.web.system.service.ISysUserOnlineService;
+
 import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,7 +14,7 @@ import java.io.Serializable;
 /**
  * 会话db操作处理
  *
- * @author ruoyi
+ * @author july
  */
 @Component
 public class SysShiroService {

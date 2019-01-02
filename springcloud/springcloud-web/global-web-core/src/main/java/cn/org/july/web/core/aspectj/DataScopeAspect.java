@@ -1,11 +1,12 @@
 package cn.org.july.web.core.aspectj;
 
-import com.ruoyi.common.annotation.DataScope;
-import com.ruoyi.common.base.BaseEntity;
-import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.framework.util.ShiroUtils;
-import com.ruoyi.system.domain.SysRole;
-import com.ruoyi.system.domain.SysUser;
+
+import cn.org.july.web.common.annotation.DataScope;
+import cn.org.july.web.common.base.BaseEntity;
+import cn.org.july.web.common.utils.StringUtils;
+import cn.org.july.web.core.util.ShiroUtils;
+import cn.org.july.web.system.entitis.SysRole;
+import cn.org.july.web.system.entitis.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
@@ -41,7 +42,9 @@ public class DataScopeAspect {
      */
     public static final String DATA_SCOPE = "dataScope";
 
-    // 配置织入点
+    /**
+     * 配置织入点
+     */
     @Pointcut("@annotation(cn.org.july.web.common.annotation.DataScope)")
     public void dataScopePointCut() {
     }

@@ -1,11 +1,12 @@
 package cn.org.july.web.core.web.domain.server;
 
-import com.ruoyi.common.utils.Arith;
+
+import cn.org.july.web.common.utils.Arith;
 
 /**
  * CPU相关信息
  * 
- * @author ruoyi
+ * @author july
  */
 public class Cpu
 {
