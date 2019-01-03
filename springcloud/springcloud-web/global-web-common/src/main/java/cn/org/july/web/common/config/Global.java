@@ -29,7 +29,7 @@ public class Global {
     /**
      * 保存全局属性值
      */
-    private static Map<String, String> map = new HashMap<String, String>();
+    private static Map<String, String> map = new HashMap<>();
 
     private Global() {
     }
@@ -70,63 +70,63 @@ public class Global {
      * 获取项目名称
      */
     public static String getName() {
-        return StringUtils.nvl(getConfig("ruoyi.name"), "RuoYi");
+        return StringUtils.nvl(getConfig("july.name"), "july");
     }
 
     /**
      * 获取项目版本
      */
     public static String getVersion() {
-        return StringUtils.nvl(getConfig("ruoyi.version"), "3.1.0");
+        return StringUtils.nvl(getConfig("july.version"), "1.0");
     }
 
     /**
      * 获取版权年份
      */
     public static String getCopyrightYear() {
-        return StringUtils.nvl(getConfig("ruoyi.copyrightYear"), "2018");
+        return StringUtils.nvl(getConfig("july.copyrightYear"), "2019");
     }
 
     /**
      * 获取ip地址开关
      */
     public static Boolean isAddressEnabled() {
-        return Boolean.valueOf(getConfig("ruoyi.addressEnabled"));
+        return Boolean.valueOf(getConfig("july.addressEnabled"));
     }
 
     /**
      * 获取文件上传路径
      */
     public static String getProfile() {
-        return getConfig("ruoyi.profile");
+        return getConfig("july.profile");
     }
 
     /**
      * 获取头像上传路径
      */
     public static String getAvatarPath() {
-        return getConfig("ruoyi.profile") + "avatar/";
+        return getConfig("july.profile") + "avatar/";
     }
 
     /**
      * 获取下载上传路径
      */
     public static String getDownloadPath() {
-        return getConfig("ruoyi.profile") + "download/";
+        return getConfig("july.profile") + "download/";
     }
 
     /**
      * 获取作者
      */
     public static String getAuthor() {
-        return StringUtils.nvl(getConfig("gen.author"), "ruoyi");
+        return StringUtils.nvl(getConfig("gen.author"), "july");
     }
 
     /**
      * 生成包路径
      */
     public static String getPackageName() {
-        return StringUtils.nvl(getConfig("gen.packageName"), "com.ruoyi.project.module");
+        return StringUtils.nvl(getConfig("gen.packageName"), "com.july.project.module");
     }
 
     /**
