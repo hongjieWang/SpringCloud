@@ -111,7 +111,7 @@ xss:
   urlPatterns: /system/*,/monitor/*,/tool/*
 
 # 项目相关配置
-ruoyi:
+july:
   # 名称
   name: july
   # 版本
