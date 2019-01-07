@@ -1,0 +1,23 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "cn.org.july.web.core.config.GenConfig",
+      "name": "gen",
+      "type": "cn.org.july.web.core.config.GenConfig"
+    },
+    {
+      "sourceType": "cn.org.july.web.core.config.DruidConfig",
+      "name": "spring.datasource.druid.master",
+      "sourceMethod": "masterDataSource()",
+      "type": "javax.sql.DataSource"
+    },
+    {
+      "sourceType": "cn.org.july.web.core.config.DruidConfig",
+      "name": "spring.datasource.druid.slave",
+      "sourceMethod": "slaveDataSource()",
+      "type": "javax.sql.DataSource"
+    }
+  ],
+  "properties": []
+}
