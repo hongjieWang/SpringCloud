@@ -151,7 +151,9 @@
         <module>springcloud-provider-user-8002</module>
         <module>springcloud-provider-user-8003</module>
         <module>springcloud-consumer-user-feign-8010</module>
+        <module>springcloud-stream-provider-9001</module>
         <module>springcloud-web</module>
+        <module>springcloud-stream-consumer-9010</module>
     </modules>
 
     <build>

@@ -1,0 +1,39 @@
+server:
+  port: 9010
+
+eureka:
+   client:
+     serviceUrl:
+       defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+       registerWithEureka: true
+       fetchRegistry: true
+   instance:
+     instance-id: springcloud-stream-consumer
+     prefer-ip-address: true
+
+
+spring:
+  cloud:
+    stream:
+      binders: # 在此处配置要绑定的rabbitmq的服务信息；
+        defaultRabbit: # 表示定义的名称，用于于binding整合
+          type: rabbit # 消息组件类型
+          environment: # 设置rabbitmq的相关的环境配置
+            spring:
+              rabbitmq:
+                host: 192.168.199.112
+                port: 5672
+                username: admin
+                password: admin
+                virtual-host: /
+      bindings: # 服务的整合处理
+        output:  # 这个名字是一个通道的名称，在分析具体源代码的时候会进行说明
+          destination: msg_send # 表示要使用的Exchange名称定义
+          content-type: application/json # 设置消息类型，本次为对象json，如果是文本则设置“text/plain”
+          binder: defaultRabbit # 设置要绑定的消息服务的具体设置
+        input:
+          destination: msg_send
+          content-type: application/json
+          binder: defaultRabbit
+  application:
+    name: microcloud-stream-provider-9010
