@@ -95,23 +95,23 @@
 
         <!--&lt;!&ndash; 系统模块&ndash;&gt;-->
         <!--<dependency>-->
-            <!--<groupId>com.ruoyi</groupId>-->
-            <!--<artifactId>ruoyi-system</artifactId>-->
-            <!--<version>${ruoyi.version}</version>-->
+            <!--<groupId>com.wanghongjie</groupId>-->
+            <!--<artifactId>wanghongjie-system</artifactId>-->
+            <!--<version>${wanghongjie.version}</version>-->
         <!--</dependency>-->
 
         <!--&lt;!&ndash; 定时任务&ndash;&gt;-->
         <!--<dependency>-->
-            <!--<groupId>com.ruoyi</groupId>-->
-            <!--<artifactId>ruoyi-quartz</artifactId>-->
-            <!--<version>${ruoyi.version}</version>-->
+            <!--<groupId>com.wanghongjie</groupId>-->
+            <!--<artifactId>wanghongjie-quartz</artifactId>-->
+            <!--<version>${wanghongjie.version}</version>-->
         <!--</dependency>-->
 
         <!--&lt;!&ndash; 代码生成&ndash;&gt;-->
         <!--<dependency>-->
-            <!--<groupId>com.ruoyi</groupId>-->
-            <!--<artifactId>ruoyi-generator</artifactId>-->
-            <!--<version>${ruoyi.version}</version>-->
+            <!--<groupId>com.wanghongjie</groupId>-->
+            <!--<artifactId>wanghongjie-mapper</artifactId>-->
+            <!--<version>${wanghongjie.version}</version>-->
         <!--</dependency>-->
 
         <!-- pagehelper 分页插件 -->

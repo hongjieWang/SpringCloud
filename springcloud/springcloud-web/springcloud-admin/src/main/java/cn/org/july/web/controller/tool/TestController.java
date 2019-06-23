@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * swagger 测试方法
  * 
- * @author ruoyi
+ * @author wanghongjie
  */
 @Api("用户信息管理")
 @RestController

@@ -15,6 +15,7 @@
         <module>global-web-common</module>
         <module>global-web-core</module>
         <module>springcloud-admin</module>
+        <module>global-web-generator</module>
     </modules>
     <artifactId>springcloud-web</artifactId>
 
