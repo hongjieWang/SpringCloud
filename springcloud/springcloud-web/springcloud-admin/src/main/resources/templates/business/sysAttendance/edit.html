@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-sysAttendance-edit" th:object="${sysAttendance}">
+            <input id="id" name="id" th:field="*{id}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">考勤编号：</label>
+				<div class="col-sm-8">
+					<input id="attendanceNo" name="attendanceNo" th:field="*{attendanceNo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">考勤名称：</label>
+				<div class="col-sm-8">
+					<input id="attendanceName" name="attendanceName" th:field="*{attendanceName}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">下班打卡时间：</label>
+				<div class="col-sm-8">
+					<input id="clockEndTime" name="clockEndTime" th:field="*{clockEndTime}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">上班打卡时间：</label>
+				<div class="col-sm-8">
+					<input id="clockStartTime" name="clockStartTime" th:field="*{clockStartTime}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">项目编号：</label>
+				<div class="col-sm-8">
+					<input id="projectNumber" name="projectNumber" th:field="*{projectNumber}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">餐补：</label>
+				<div class="col-sm-8">
+					<input id="subsidizedMeals" name="subsidizedMeals" th:field="*{subsidizedMeals}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">交通补助：</label>
+				<div class="col-sm-8">
+					<input id="traffic" name="traffic" th:field="*{traffic}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">调休：</label>
+				<div class="col-sm-8">
+					<input id="paidLeave" name="paidLeave" th:field="*{paidLeave}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">用户id：</label>
+				<div class="col-sm-8">
+					<input id="userId" name="userId" th:field="*{userId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">考勤名称：</label>
+				<div class="col-sm-8">
+					<input id="userName" name="userName" th:field="*{userName}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "business/sysAttendance";
+		$("#form-sysAttendance-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			}
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-sysAttendance-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

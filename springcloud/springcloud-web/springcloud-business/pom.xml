@@ -3,22 +3,19 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>springcloud</artifactId>
+        <artifactId>springcloud-web</artifactId>
         <groupId>cn.org.july.springcloud</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <packaging>pom</packaging>
 
-
-    <modules>
-        <module>global-web-common</module>
-        <module>global-web-core</module>
-        <module>springcloud-admin</module>
-        <module>global-web-generator</module>
-        <module>springcloud-business</module>
-    </modules>
-    <artifactId>springcloud-web</artifactId>
-
+    <artifactId>springcloud-business</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>cn.org.july.springcloud</groupId>
+            <artifactId>global-web-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 </project>
