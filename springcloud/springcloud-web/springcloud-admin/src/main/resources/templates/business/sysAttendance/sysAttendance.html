@@ -3,168 +3,181 @@
 <meta charset="utf-8">
 <head th:include="include :: header"></head>
 <body class="gray-bg">
-    
-     <div class="container-div">
-		<div class="row">
-			<div class="col-sm-12 search-collapse">
-				<form id="formId">
-					<div class="select-list">
-						<ul>
-							<li>
-								考勤编号：<input type="text" name="attendanceNo"/>
-							</li>
 
-							<li>
-								考勤名称：<input type="text" name="attendanceName"/>
-							</li>
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="formId">
+                <div class="select-list">
+                    <ul>
+                        <!--<li>-->
+                        <!--考勤编号：<input type="text" name="attendanceNo"/>-->
+                        <!--</li>-->
 
-							<li>
-								下班打卡时间：<input type="text" name="clockEndTime"/>
-							</li>
+                        <!--<li>-->
+                        <!--考勤名称：<input type="text" name="attendanceName"/>-->
+                        <!--</li>-->
 
-							<li>
-								上班打卡时间：<input type="text" name="clockStartTime"/>
-							</li>
+                        <!--<li>-->
+                        <!--下班打卡时间：<input type="text" name="clockEndTime"/>-->
+                        <!--</li>-->
 
-							<li>
-								项目编号：<input type="text" name="projectNumber"/>
-							</li>
+                        <!--<li>-->
+                        <!--上班打卡时间：<input type="text" name="clockStartTime"/>-->
+                        <!--</li>-->
 
-							<li>
-								餐补：<input type="text" name="subsidizedMeals"/>
-							</li>
+                        <li>
+                            项目编号：<input type="text" name="projectNumber"/>
+                        </li>
 
-							<li>
-								交通补助：<input type="text" name="traffic"/>
-							</li>
+                        <li>
+                            餐补：<input type="text" name="subsidizedMeals"/>
+                        </li>
 
-							<li>
-								调休：<input type="text" name="paidLeave"/>
-							</li>
+                        <li>
+                            交通补助：<input type="text" name="traffic"/>
+                        </li>
 
-							<li>
-								用户id：<input type="text" name="userId"/>
-							</li>
+                        <li>
+                            调休：<input type="text" name="paidLeave"/>
+                        </li>
 
-							<li>
-								考勤名称：<input type="text" name="userName"/>
-							</li>
+                        <!--<li>-->
+                        <!--用户id：<input type="text" name="userId"/>-->
+                        <!--</li>-->
 
-							<li>
-								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
-								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
-							</li>
-						</ul>
-					</div>
-				</form>
-			</div>
-			
-	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
-				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="null:sysAttendance:add">
-					<i class="fa fa-plus"></i> 添加
-				</a>
-				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="null:sysAttendance:edit">
-					<i class="fa fa-edit"></i> 修改
-				</a>
-				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="null:sysAttendance:remove">
-					<i class="fa fa-remove"></i> 删除
-				</a>
-				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="null:sysAttendance:export">
-						<i class="fa fa-download"></i> 导出
-				 </a>
-			</div>
-			<div class="col-sm-12 select-table table-striped">
-				<table id="bootstrap-table" data-mobile-responsive="true"></table>
-			</div>
-		</div>
-	</div>
-    <div th:include="include :: footer"></div>
-    <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('null:sysAttendance:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('null:sysAttendance:remove')}]];
-        var prefix = ctx + "business/sysAttendance";
+                        <!--<li>-->
+                        <!--用户名称：<input type="text" name="userName"/>-->
+                        <!--</li>-->
 
-        $(function() {
-            var options = {
-                url: prefix + "/list",
-                createUrl: prefix + "/add",
-                updateUrl: prefix + "/edit/{id}",
-                removeUrl: prefix + "/remove",
-				exportUrl: prefix + "/export",
-                modalName: "打卡记录",
-				search: false,
-		        showExport: true,
-                columns: [{
-		            checkbox: true
-		        },
-				{
-					field : 'id', 
-					title : '主建',
-					visible: false
-				},
-				{
-					field : 'attendanceNo', 
-					title : '考勤编号',
-					sortable: true
-				},
-				{
-					field : 'attendanceName', 
-					title : '考勤名称',
-					sortable: true
-				},
-				{
-					field : 'clockEndTime', 
-					title : '下班打卡时间',
-					sortable: true
-				},
-				{
-					field : 'clockStartTime', 
-					title : '上班打卡时间',
-					sortable: true
-				},
-				{
-					field : 'projectNumber', 
-					title : '项目编号',
-					sortable: true
-				},
-				{
-					field : 'subsidizedMeals', 
-					title : '餐补',
-					sortable: true
-				},
-				{
-					field : 'traffic', 
-					title : '交通补助',
-					sortable: true
-				},
-				{
-					field : 'paidLeave', 
-					title : '调休',
-					sortable: true
-				},
-				{
-					field : 'userId', 
-					title : '用户id',
-					sortable: true
-				},
-				{
-					field : 'userName', 
-					title : '考勤名称',
-					sortable: true
-				},
-		        {
-		            title: '操作',
-		            align: 'center',
-		            formatter: function(value, row, index) {
-		            	var actions = [];
-		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                    class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                    class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+            <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="null:sysAttendance:add">
+                <i class="fa fa-plus"></i> 添加
+            </a>
+            <a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()"
+               shiro:hasPermission="null:sysAttendance:edit">
+                <i class="fa fa-edit"></i> 修改
+            </a>
+            <a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()"
+               shiro:hasPermission="null:sysAttendance:remove">
+                <i class="fa fa-remove"></i> 删除
+            </a>
+            <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="null:sysAttendance:export">
+                <i class="fa fa-download"></i> 导出
+            </a>
+            <a class="btn btn-warning" onclick="daka()"
+               shiro:hasPermission="null:sysAttendance:add">
+                <i class="fa fa-download"></i> 打卡
+            </a>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table" data-mobile-responsive="true"></table>
+        </div>
+    </div>
+</div>
+<div th:include="include :: footer"></div>
+<script th:inline="javascript">
+    var editFlag = [[${@permission.hasPermi('null:sysAttendance:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('null:sysAttendance:remove')}]];
+    var prefix = ctx + "business/sysAttendance";
+
+    $(function () {
+        var options = {
+            url: prefix + "/list",
+            createUrl: prefix + "/add",
+            updateUrl: prefix + "/edit/{id}",
+            removeUrl: prefix + "/remove",
+            exportUrl: prefix + "/export",
+            modalName: "打卡记录",
+            search: false,
+            showExport: true,
+            columns: [{
+                checkbox: true
+            },
+                {
+                    field: 'id',
+                    title: '主建',
+                    visible: false
+                },
+                {
+                    field: 'attendanceNo',
+                    title: '考勤编号',
+                    sortable: true
+                },
+                {
+                    field: 'attendanceName',
+                    title: '考勤名称',
+                    sortable: true
+                },
+                {
+                    field: 'clockEndTime',
+                    title: '下班打卡时间',
+                    sortable: true
+                },
+//				{
+//					field : 'clockStartTime',
+//					title : '上班打卡时间',
+//					sortable: true
+//				},
+                {
+                    field: 'projectNumber',
+                    title: '项目编号',
+                    sortable: true
+                },
+                {
+                    field: 'subsidizedMeals',
+                    title: '餐补',
+                    sortable: true
+                },
+                {
+                    field: 'traffic',
+                    title: '交通补助',
+                    sortable: true
+                },
+                {
+                    field: 'paidLeave',
+                    title: '调休',
+                    sortable: true
+                },
+//				{
+//					field : 'userId',
+//					title : '用户id',
+//					sortable: true
+//				},
+                {
+                    field: 'userName',
+                    title: '用户名称',
+                    sortable: true
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
-						return actions.join('');
-		            }
-		        }]
-            };
-            $.table.init(options);
-        });
-    </script>
+                        return actions.join('');
+                    }
+                }]
+        };
+        $.table.init(options);
+    });
+    
+    function daka() {
+        $.modal.open("项目编号",prefix+'/getdaka');
+//        $.operate.post(prefix+'/daka','');
+    }
+</script>
 </body>
 </html>

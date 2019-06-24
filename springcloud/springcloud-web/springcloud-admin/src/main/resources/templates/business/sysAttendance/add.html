@@ -1,88 +1,73 @@
 <!DOCTYPE HTML>
-<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <meta charset="utf-8">
 <head th:include="include :: header"></head>
+<link th:href="@{/ajax/libs/datapicker/datepicker3.css}" rel="stylesheet"/>
 <body class="white-bg">
-    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-        <form class="form-horizontal m" id="form-sysAttendance-add">
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">考勤编号：</label>
-				<div class="col-sm-8">
-					<input id="attendanceNo" name="attendanceNo" class="form-control" type="text">
-				</div>
-			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">考勤名称：</label>
-				<div class="col-sm-8">
-					<input id="attendanceName" name="attendanceName" class="form-control" type="text">
-				</div>
-			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">下班打卡时间：</label>
-				<div class="col-sm-8">
-					<input id="clockEndTime" name="clockEndTime" class="form-control" type="text">
-				</div>
-			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">上班打卡时间：</label>
-				<div class="col-sm-8">
-					<input id="clockStartTime" name="clockStartTime" class="form-control" type="text">
-				</div>
-			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">项目编号：</label>
-				<div class="col-sm-8">
-					<input id="projectNumber" name="projectNumber" class="form-control" type="text">
-				</div>
-			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">餐补：</label>
-				<div class="col-sm-8">
-					<input id="subsidizedMeals" name="subsidizedMeals" class="form-control" type="text">
-				</div>
-			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">交通补助：</label>
-				<div class="col-sm-8">
-					<input id="traffic" name="traffic" class="form-control" type="text">
-				</div>
-			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">调休：</label>
-				<div class="col-sm-8">
-					<input id="paidLeave" name="paidLeave" class="form-control" type="text">
-				</div>
-			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">用户id：</label>
-				<div class="col-sm-8">
-					<input id="userId" name="userId" class="form-control" type="text">
-				</div>
-			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">考勤名称：</label>
-				<div class="col-sm-8">
-					<input id="userName" name="userName" class="form-control" type="text">
-				</div>
-			</div>
-		</form>
-	</div>
-    <div th:include="include::footer"></div>
-    <script type="text/javascript">
-		var prefix = ctx + "business/sysAttendance"
-		$("#form-sysAttendance-add").validate({
-			rules:{
-				xxxx:{
-					required:true,
-				},
-			}
-		});
-		
-		function submitHandler() {
-	        if ($.validate.form()) {
-	            $.operate.save(prefix + "/add", $('#form-sysAttendance-add').serialize());
-	        }
-	    }
-	</script>
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-sysAttendance-add">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">考勤编号：</label>
+            <div class="col-sm-8">
+                <input id="attendanceNo" name="attendanceNo" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">考勤名称：</label>
+            <div class="col-sm-8">
+                <input id="attendanceName" name="attendanceName" class="form-control" type="text">
+            </div>
+        </div>
+        <!--<div class="form-group">-->
+            <!--<label class="col-sm-3 control-label">下班打卡时间：</label>-->
+            <!--<div class="col-sm-8">-->
+                <!--<div class="input-group date">-->
+                    <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span>-->
+                    <!--<input id="clockEndTime" name="clockEndTime" type="text" class="form-control">-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+            <!--<label class="col-sm-3 control-label">上班打卡时间：</label>-->
+            <!--<div class="col-sm-8">-->
+                <!--<input id="clockStartTime" name="clockStartTime" class="form-control" type="text">-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="form-group">
+            <label class="col-sm-3 control-label">项目编号：</label>
+            <div class="col-sm-8">
+                <input id="projectNumber" name="projectNumber" class="form-control" type="text">
+            </div>
+        </div>
+    </form>
+</div>
+<div th:include="include::footer"></div>
+<script th:src="@{/ajax/libs/datapicker/bootstrap-datepicker.js}"></script>
+<script>
+    $(".input-group.date").datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        todayBtn: "linked",
+        keyboardNavigation: !1,
+        forceParse: !1,
+        calendarWeeks: !0,
+    });
+</script>
+<script type="text/javascript">
+    var prefix = ctx + "business/sysAttendance"
+    $("#form-sysAttendance-add").validate({
+        rules: {
+            xxxx: {
+                required: true,
+            },
+        }
+    });
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            $.operate.save(prefix + "/add", $('#form-sysAttendance-add').serialize());
+        }
+    }
+</script>
 </body>
 </html>
