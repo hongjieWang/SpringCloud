@@ -6,7 +6,7 @@ import cn.org.july.web.common.constant.Constants;
 import cn.org.july.web.common.utils.StringUtils;
 import cn.org.july.web.domain.ColumnInfo;
 import cn.org.july.web.domain.TableInfo;
-import cn.org.july.web.mapper.GenMapper;
+import cn.org.july.web.dao.GenMapper;
 import cn.org.july.web.service.IGenService;
 import cn.org.july.web.util.GenUtils;
 import cn.org.july.web.util.VelocityInitializer;

@@ -110,7 +110,7 @@
         <!--&lt;!&ndash; 代码生成&ndash;&gt;-->
         <!--<dependency>-->
             <!--<groupId>com.wanghongjie</groupId>-->
-            <!--<artifactId>wanghongjie-mapper</artifactId>-->
+            <!--<artifactId>wanghongjie-dao</artifactId>-->
             <!--<version>${wanghongjie.version}</version>-->
         <!--</dependency>-->
 

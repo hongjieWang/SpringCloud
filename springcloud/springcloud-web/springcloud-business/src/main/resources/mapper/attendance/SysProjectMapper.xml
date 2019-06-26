@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.org.july.web.dao.SysProjectMapper">
+
+    <resultMap type="SysProject" id="SysProjectResult">
+        <result property="id" column="id"/>
+        <result property="projectNumber" column="projectNumber"/>
+        <result property="projectName" column="projectName"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <sql id="selectSysProjectVo">
+        select id, projectNumber, projectName, status from sys_project
+    </sql>
+
+    <select id="selectSysProjectList" parameterType="SysProject" resultMap="SysProjectResult">
+        <include refid="selectSysProjectVo"/>
+        <where>
+            <if test="id != null ">and id = #{id}</if>
+            <if test="projectNumber != null  and projectNumber != '' ">and projectNumber = #{projectNumber}</if>
+            <if test="projectName != null  and projectName != '' ">and projectName = #{projectName}</if>
+            <if test="status != null  and status != '' ">and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectSysProjectById" parameterType="Integer" resultMap="SysProjectResult">
+        <include refid="selectSysProjectVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSysProject" parameterType="SysProject">
+        insert into sys_project
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  ">id,</if>
+            <if test="projectNumber != null  and projectNumber != ''  ">projectNumber,</if>
+            <if test="projectName != null  and projectName != ''  ">projectName,</if>
+            <if test="status != null  and status != ''  ">status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  ">#{id},</if>
+            <if test="projectNumber != null  and projectNumber != ''  ">#{projectNumber},</if>
+            <if test="projectName != null  and projectName != ''  ">#{projectName},</if>
+            <if test="status != null  and status != ''  ">#{status},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysProject" parameterType="SysProject">
+        update sys_project
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectNumber != null  and projectNumber != ''  ">projectNumber = #{projectNumber},</if>
+            <if test="projectName != null  and projectName != ''  ">projectName = #{projectName},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysProjectById" parameterType="Integer">
+        delete from sys_project where id = #{id}
+    </delete>
+
+    <delete id="deleteSysProjectByIds" parameterType="String">
+        delete from sys_project where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

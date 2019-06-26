@@ -25,7 +25,7 @@ public class GenUtils
     private static final String PROJECT_PATH = getProjectPath();
 
     /** mybatis空间路径 */
-    private static final String MYBATIS_PATH = "main/resources/mapper";
+    private static final String MYBATIS_PATH = "main/resources/dao";
 
     /** html空间路径 */
     private static final String TEMPLATES_PATH = "main/resources/templates";

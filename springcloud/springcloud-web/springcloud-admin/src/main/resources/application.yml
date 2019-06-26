@@ -11,7 +11,7 @@ server:
     # tomcat最大线程数，默认为200
     max-threads: 800
     # Tomcat启动初始化的线程数，默认值25
-    min-spare-threads: 30
+    min-spare-threads: 20
 
 # 日志配置
 logging:

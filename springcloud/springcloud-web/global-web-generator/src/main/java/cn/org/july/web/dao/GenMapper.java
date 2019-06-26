@@ -1,4 +1,4 @@
-package cn.org.july.web.mapper;
+package cn.org.july.web.dao;
 
 
 import cn.org.july.web.domain.ColumnInfo;

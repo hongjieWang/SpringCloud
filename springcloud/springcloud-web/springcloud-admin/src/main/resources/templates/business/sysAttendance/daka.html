@@ -9,23 +9,20 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">项目编号：</label>
             <div class="col-sm-8">
-                <input id="projectNumber" name="projectNumber" class="form-control" type="text">
+                <div class="col-sm-9">
+                    <select class="form-control" name="projectNumber" id="projectNumber">
+                        <th:block th:each="arrayS:${sysProjectList}">
+                            <option th:value="${arrayS.projectNumber}" th:text="|${arrayS.projectNumber},${arrayS.projectName}|"></option>
+                        </th:block>
+                    </select>
+                </div>
             </div>
         </div>
     </form>
 </div>
 <div th:include="include::footer"></div>
 <script th:src="@{/ajax/libs/datapicker/bootstrap-datepicker.js}"></script>
-<script>
-    $(".input-group.date").datepicker({
-        format: 'yyyy-mm-dd',
-        autoclose: true,
-        todayBtn: "linked",
-        keyboardNavigation: !1,
-        forceParse: !1,
-        calendarWeeks: !0,
-    });
-</script>
+
 <script type="text/javascript">
     var prefix = ctx + "business/sysAttendance"
     $("#form-sysAttendance-add").validate({
