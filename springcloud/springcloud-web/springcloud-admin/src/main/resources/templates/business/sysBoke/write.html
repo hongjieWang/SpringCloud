@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link rel="stylesheet" th:href="@{/ajax/libs/markdown/css/style.css}"/>
+<link rel="stylesheet" th:href="@{/ajax/libs/markdown/css/editormd.css}"/>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-sysBoke-add">
+        <div class="form-group">
+
+            <div class="col-sm-9">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">标题：</label>
+                    <div class="col-sm-8">
+                        <input id="title" name="title" class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="btn-group-sm" id="toolbar" role="group">
+                    <a class="btn btn-primary btn-edit" onclick="saveSysBoko()">
+                        <i class="fa fa-edit"></i> 发布
+                    </a>
+                </div>
+                <div id="test-editormd">
+                  <textarea id="text" name="text" style="display:none;">[TOC]
+
+#### Disabled options
+
+- TeX (Based on KaTeX);
+- Emoji;
+- Task lists;
+- HTML tags decode;
+- Flowchart and Sequence Diagram;
+
+#### Editor.md directory
+
+    editor.md/
+            lib/
+            css/
+            scss/
+            tests/
+            fonts/
+            images/
+            plugins/
+            examples/
+            languages/
+            editormd.js
+            ...
+
+```html
+&lt;!-- English --&gt;
+&lt;script src="../dist/js/languages/en.js"&gt;&lt;/script&gt;
+
+&lt;!-- 繁體中文 --&gt;
+&lt;script src="../dist/js/languages/zh-tw.js"&gt;&lt;/script&gt;
+```
+</textarea>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+<div th:include="include::footer"></div>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/ajax/libs/markdown/js/editormd.js}"></script>
+<script type="text/javascript">
+    var testEditor;
+
+    $(function () {
+        testEditor = editormd("test-editormd", {
+            width: "90%",
+            height: 640,
+            syncScrolling: "single",
+            path: "/ajax/libs/markdown/lib/"
+        });
+    });
+
+    var prefix = ctx + "business/sysBoke"
+
+
+    function saveSysBoko() {
+        if (true) {
+            var config = {
+                url: prefix + "/add",
+                type: "post",
+                dataType: "json",
+                data: $('#form-sysBoke-add').serialize(),
+                success: function(result) {
+                    $.operate.successCallback(result);
+                }
+            };
+            $.ajax(config)
+        }
+    }
+
+
+</script>
+</body>
+</html>

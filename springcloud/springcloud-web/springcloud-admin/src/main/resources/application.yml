@@ -122,3 +122,4 @@ july:
   profile: D:/profile/
   # 获取ip地址开关
   addressEnabled: true
+debug: true

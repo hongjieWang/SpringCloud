@@ -28,6 +28,7 @@
         <swagger.version>2.7.0</swagger.version>
         <pagehelper.boot.version>1.2.5</pagehelper.boot.version>
         <oshi.version>3.9.1</oshi.version>
+        <commonmark.version>0.8.0</commonmark.version>
     </properties>
 
     <dependencyManagement>
@@ -136,6 +137,18 @@
                 <groupId>log4j</groupId>
                 <artifactId>log4j</artifactId>
                 <version>${log4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.atlassian.commonmark</groupId>
+                <artifactId>commonmark</artifactId>
+                <version>${commonmark.version}</version>
+            </dependency>
+            <!-- commonmark table -->
+            <dependency>
+                <groupId>com.atlassian.commonmark</groupId>
+                <artifactId>commonmark-ext-gfm-tables</artifactId>
+                <version>${commonmark.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

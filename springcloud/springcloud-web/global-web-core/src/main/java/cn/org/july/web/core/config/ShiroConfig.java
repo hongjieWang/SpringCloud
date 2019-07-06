@@ -10,7 +10,6 @@ import cn.org.july.web.core.shiro.web.filter.online.OnlineSessionFilter;
 import cn.org.july.web.core.shiro.web.filter.sync.SyncOnlineSessionFilter;
 import cn.org.july.web.core.shiro.web.session.OnlineWebSessionManager;
 import cn.org.july.web.core.shiro.web.session.SpringSessionValidationScheduler;
-import cn.org.july.web.system.service.ISysMenuService;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
@@ -256,6 +255,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/ruoyi/**", "anon");
         filterChainDefinitionMap.put("/druid/**", "anon");
+        filterChainDefinitionMap.put("/blog/**", "anon");
         filterChainDefinitionMap.put("/captcha/captchaImage**", "anon");
         // 退出 logout地址，shiro去清除session
         filterChainDefinitionMap.put("/logout", "logout");

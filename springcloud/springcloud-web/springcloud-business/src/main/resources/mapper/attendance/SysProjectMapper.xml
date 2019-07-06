@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.org.july.web.dao.SysProjectMapper">
+<mapper namespace="cn.org.july.web.attendance.dao.SysProjectMapper">
 
     <resultMap type="SysProject" id="SysProjectResult">
         <result property="id" column="id"/>

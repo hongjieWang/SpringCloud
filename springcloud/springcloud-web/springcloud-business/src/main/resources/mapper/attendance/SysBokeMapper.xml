@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.org.july.web.dao.SysBokeMapper">
+
+    <resultMap type="SysBoke" id="SysBokeResult">
+        <result property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="auther" column="auther"/>
+        <result property="time" column="time"/>
+        <result property="text" column="text"/>
+    </resultMap>
+
+    <sql id="selectSysBokeVo">
+        select id, title, auther, time, text from sys_boke
+    </sql>
+
+    <select id="selectSysBokeList" parameterType="SysBoke" resultMap="SysBokeResult">
+        <include refid="selectSysBokeVo"/>
+        <where>
+            <if test="id != null ">and id = #{id}</if>
+            <if test="title != null  and title != '' ">and title = #{title}</if>
+            <if test="auther != null  and auther != '' ">and auther = #{auther}</if>
+            <if test="time != null ">and time = #{time}</if>
+            <if test="text != null  and text != '' ">and text = #{text}</if>
+        </where>
+    </select>
+
+    <select id="selectSysBokeById" parameterType="Integer" resultMap="SysBokeResult">
+        <include refid="selectSysBokeVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSysBoke" parameterType="SysBoke">
+        insert into sys_boke
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  ">id,</if>
+            <if test="title != null  and title != ''  ">title,</if>
+            <if test="auther != null  and auther != ''  ">auther,</if>
+            <if test="time != null  ">time,</if>
+            <if test="text != null  and text != ''  ">text,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  ">#{id},</if>
+            <if test="title != null  and title != ''  ">#{title},</if>
+            <if test="auther != null  and auther != ''  ">#{auther},</if>
+            <if test="time != null  ">#{time},</if>
+            <if test="text != null  and text != ''  ">#{text},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysBoke" parameterType="SysBoke">
+        update sys_boke
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null  and title != ''  ">title = #{title},</if>
+            <if test="auther != null  and auther != ''  ">auther = #{auther},</if>
+            <if test="time != null  ">time = #{time},</if>
+            <if test="text != null  and text != ''  ">text = #{text},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysBokeById" parameterType="Integer">
+        delete from sys_boke where id = #{id}
+    </delete>
+
+    <delete id="deleteSysBokeByIds" parameterType="String">
+        delete from sys_boke where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

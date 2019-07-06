@@ -91,7 +91,7 @@
     var editFlag = [[${@permission.hasPermi('business:sysAttendance:edit')}]];
     var removeFlag = [[${@permission.hasPermi('business:sysAttendance:remove')}]];
     var prefix = ctx + "business/sysAttendance";
-
+    console.log("ctx is : "+ctx);
     $(function () {
         var options = {
             url: prefix + "/list",

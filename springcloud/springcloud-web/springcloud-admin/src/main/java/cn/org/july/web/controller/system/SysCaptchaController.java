@@ -23,7 +23,7 @@ import java.io.IOException;
  * @author july
  */
 @Controller
-@RequestMapping("/captcha")
+@RequestMapping("/")
 public class SysCaptchaController extends BaseController {
     @Resource(name = "captchaProducer")
     private Producer captchaProducer;
@@ -34,7 +34,7 @@ public class SysCaptchaController extends BaseController {
     /**
      * 验证码生成
      */
-    @GetMapping(value = "/captchaImage")
+    @GetMapping(value = "captcha/captchaImage")
     public ModelAndView getKaptchaImage(HttpServletRequest request, HttpServletResponse response) {
         ServletOutputStream out = null;
         try {
@@ -59,6 +59,7 @@ public class SysCaptchaController extends BaseController {
                 bi = captchaProducer.createImage(capStr);
             }
             session.setAttribute(Constants.KAPTCHA_SESSION_KEY, code);
+            session.setAttribute("verifyCode", code);
             out = response.getOutputStream();
             ImageIO.write(bi, "jpg", out);
             out.flush();
@@ -75,5 +76,14 @@ public class SysCaptchaController extends BaseController {
             }
         }
         return null;
+    }
+
+
+    /**
+     * 验证码生成
+     */
+    @GetMapping(value = "blog/captcha/captchaImage")
+    public ModelAndView getBlogKaptchaImage(HttpServletRequest request, HttpServletResponse response) {
+        return getKaptchaImage(request, response);
     }
 }
