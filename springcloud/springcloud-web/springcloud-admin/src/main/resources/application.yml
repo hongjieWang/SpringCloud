@@ -46,8 +46,10 @@ spring:
   # 文件上传
   servlet:
     multipart:
-      max-file-size:  30MB
-      max-request-size:  30MB
+      max-file-size: 100M
+      max-request-size: 100M
+
+
   # 服务模块
   devtools:
     restart:
@@ -75,11 +77,11 @@ pagehelper:
 shiro:
   user:
     # 登录地址
-    loginUrl: /login
+    loginUrl: /blog
     # 权限认证失败地址
     unauthorizedUrl: /unauth
     # 首页地址
-    indexUrl: /index
+    indexUrl: /blog
     # 验证码开关
     captchaEnabled: true
     # 验证码类型 math 数组计算 char 字符
@@ -119,7 +121,8 @@ july:
   # 版权年份
   copyrightYear: 2019
   # 文件上传路径
-  profile: D:/profile/
+  #profile: /Users/wanghongjie/images/
+  profile: /files/
   # 获取ip地址开关
   addressEnabled: true
-debug: true
+

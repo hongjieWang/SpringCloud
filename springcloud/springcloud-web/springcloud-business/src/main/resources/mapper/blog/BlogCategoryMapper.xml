@@ -12,6 +12,11 @@
     <sql id="Base_Column_List">
     category_id, category_name, category_icon, category_rank, is_deleted, create_time
   </sql>
+
+    <sql id="selectTbBlogCategoryVo">
+        select category_id, category_name, category_icon, category_rank, is_deleted, create_time from tb_blog_category
+    </sql>
+
     <select id="findCategoryList" parameterType="Map" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -21,6 +26,18 @@
         <if test="start!=null and limit!=null">
             limit #{start},#{limit}
         </if>
+    </select>
+
+    <select id="selectTbBlogCategoryList" parameterType="BlogCategory" resultMap="BaseResultMap">
+        <include refid="selectTbBlogCategoryVo"/>
+        <where>
+            <if test="categoryId != null ">and category_id = #{categoryId}</if>
+            <if test="categoryName != null  and categoryName != '' ">and category_name = #{categoryName}</if>
+            <if test="categoryIcon != null  and categoryIcon != '' ">and category_icon = #{categoryIcon}</if>
+            <if test="categoryRank != null ">and category_rank = #{categoryRank}</if>
+            <if test="isDeleted != null ">and is_deleted = #{isDeleted}</if>
+            <if test="createTime != null ">and create_time = #{createTime}</if>
+        </where>
     </select>
 
     <select id="getTotalCategories" parameterType="Map" resultType="int">
@@ -43,6 +60,11 @@
                  open="(" separator="," close=")">#{item}
         </foreach>
         AND is_deleted = 0
+    </select>
+
+    <select id="selectTbBlogCategoryById" parameterType="Integer" resultMap="BaseResultMap">
+        <include refid="selectTbBlogCategoryVo"/>
+        where category_id = #{categoryId}
     </select>
 
     <select id="selectByCategoryName" parameterType="java.lang.String" resultMap="BaseResultMap">

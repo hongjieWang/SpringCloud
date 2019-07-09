@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.org.july.web.blog.dao.SysPdfFileMapper">
+
+    <resultMap type="cn.org.july.web.blog.domain.SysPdfFile" id="SysFileResult">
+        <result property="id" column="id"/>
+        <result property="pdfName" column="pdfName"/>
+        <result property="pdfDownLoadUrl" column="pdfDownLoadUrl"/>
+        <result property="pdfLoaclUrl" column="pdfLoaclUrl"/>
+        <result property="pdfType" column="pdfType"/>
+        <result property="userId" column="userId"/>
+        <result property="isDelect" column="isDelect"/>
+        <result property="isStatus" column="isStatus"/>
+        <result property="downloadNumber" column="downloadNumber"/>
+    </resultMap>
+
+    <sql id="selectSysFileVo">
+        select id, pdfName, pdfDownLoadUrl, pdfLoaclUrl, pdfType, userId, isDelect, isStatus, downloadNumber from sys_file
+    </sql>
+
+    <select id="selectSysFileList" parameterType="cn.org.july.web.blog.domain.SysPdfFile" resultMap="SysFileResult">
+        <include refid="selectSysFileVo"/>
+        <where>
+            <if test="id != null ">and id = #{id}</if>
+            <if test="pdfName != null  and pdfName != '' ">and pdfName = #{pdfName}</if>
+            <if test="pdfDownLoadUrl != null  and pdfDownLoadUrl != '' ">and pdfDownLoadUrl = #{pdfDownLoadUrl}</if>
+            <if test="pdfLoaclUrl != null  and pdfLoaclUrl != '' ">and pdfLoaclUrl = #{pdfLoaclUrl}</if>
+            <if test="pdfType != null  and pdfType != '' ">and pdfType = #{pdfType}</if>
+            <if test="userId != null ">and userId = #{userId}</if>
+            <if test="isDelect != null ">and isDelect = #{isDelect}</if>
+            <if test="isStatus != null ">and isStatus = #{isStatus}</if>
+            <if test="downloadNumber != null ">and downloadNumber = #{downloadNumber}</if>
+        </where>
+    </select>
+
+    <select id="selectSysFileById" parameterType="Integer" resultMap="SysFileResult">
+        <include refid="selectSysFileVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSysFile" parameterType="cn.org.july.web.blog.domain.SysPdfFile">
+        insert into sys_file
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  ">id,</if>
+            <if test="pdfName != null  and pdfName != ''  ">pdfName,</if>
+            <if test="pdfDownLoadUrl != null  and pdfDownLoadUrl != ''  ">pdfDownLoadUrl,</if>
+            <if test="pdfLoaclUrl != null  and pdfLoaclUrl != ''  ">pdfLoaclUrl,</if>
+            <if test="pdfType != null  and pdfType != ''  ">pdfType,</if>
+            <if test="userId != null  ">userId,</if>
+            <if test="isDelect != null  ">isDelect,</if>
+            <if test="isStatus != null  ">isStatus,</if>
+            <if test="downloadNumber != null  ">downloadNumber,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  ">#{id},</if>
+            <if test="pdfName != null  and pdfName != ''  ">#{pdfName},</if>
+            <if test="pdfDownLoadUrl != null  and pdfDownLoadUrl != ''  ">#{pdfDownLoadUrl},</if>
+            <if test="pdfLoaclUrl != null  and pdfLoaclUrl != ''  ">#{pdfLoaclUrl},</if>
+            <if test="pdfType != null  and pdfType != ''  ">#{pdfType},</if>
+            <if test="userId != null  ">#{userId},</if>
+            <if test="isDelect != null  ">#{isDelect},</if>
+            <if test="isStatus != null  ">#{isStatus},</if>
+            <if test="downloadNumber != null  ">#{downloadNumber},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysFile" parameterType="cn.org.july.web.blog.domain.SysPdfFile">
+        update sys_file
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pdfName != null  and pdfName != ''  ">pdfName = #{pdfName},</if>
+            <if test="pdfDownLoadUrl != null  and pdfDownLoadUrl != ''  ">pdfDownLoadUrl = #{pdfDownLoadUrl},</if>
+            <if test="pdfLoaclUrl != null  and pdfLoaclUrl != ''  ">pdfLoaclUrl = #{pdfLoaclUrl},</if>
+            <if test="pdfType != null  and pdfType != ''  ">pdfType = #{pdfType},</if>
+            <if test="userId != null  ">userId = #{userId},</if>
+            <if test="isDelect != null  ">isDelect = #{isDelect},</if>
+            <if test="isStatus != null  ">isStatus = #{isStatus},</if>
+            <if test="downloadNumber != null  ">downloadNumber = #{downloadNumber},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysFileById" parameterType="Integer">
+        delete from sys_file where id = #{id}
+    </delete>
+
+    <delete id="deleteSysFileByIds" parameterType="String">
+        delete from sys_file where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

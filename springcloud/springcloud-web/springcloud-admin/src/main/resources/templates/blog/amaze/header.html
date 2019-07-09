@@ -28,13 +28,16 @@
             <div class="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a th:href="@{/index}">主页</a>
+                        <a th:href="@{/blog}">主页</a>
+                    </li>
+                    <!--<li>-->
+                        <!--<a th:href="@{/link}">友链</a>-->
+                    <!--</li>-->
+                    <li>
+                        <a th:href="@{/about/about}">关于</a>
                     </li>
                     <li>
-                        <a th:href="@{/link}">友链</a>
-                    </li>
-                    <li>
-                        <a th:href="@{/about}">关于</a>
+                        <a th:href="@{/login}">后台管理</a>
                     </li>
                 </ul>
             </div>
@@ -43,14 +46,17 @@
     </div>
     <!-- /.container -->
 </nav>
+
+
 <header th:fragment="header-fragment" class="intro-header"
         th:style="'background-image:url(' + @{/blog/amaze/images/header.jpg} + ');'">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="site-heading">
-          <span class="subheading">
-              我不怕千万人阻挡，只怕自己投降
+          <span class="subheading" style="font-size: 40px;text-shadow: 5px 5px 5px black, 0px 0px 2px black;
+        color: white;">
+              森屿暖树，墒以光年
           </span>
                 </div>
             </div>

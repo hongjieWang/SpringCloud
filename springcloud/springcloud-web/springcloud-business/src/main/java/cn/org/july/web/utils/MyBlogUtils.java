@@ -50,7 +50,7 @@ public class MyBlogUtils {
         value = value.replaceAll("where", "wh1re");
         value = value.replaceAll("database", "data1base");
         value = value.replaceAll("table", "tab1e");
-        value = value.replaceAll("tb", "tb0");
+        value = value.replaceAll("", "0");
         return value;
     }
 }

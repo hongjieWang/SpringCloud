@@ -270,7 +270,7 @@ public class MyBlogController {
      *
      * @return
      */
-    @GetMapping({"/ablout/{subUrl}"})
+    @GetMapping({"/about/{subUrl}"})
     public String detail(HttpServletRequest request, @PathVariable("subUrl") String subUrl) {
         BlogDetailVO blogDetailVO = blogService.getBlogDetailBySubUrl(subUrl);
         if (blogDetailVO != null) {

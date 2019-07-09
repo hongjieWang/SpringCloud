@@ -25,6 +25,17 @@ public class CommentServiceImpl implements CommentService {
         return blogCommentMapper.insertSelective(blogComment) > 0;
     }
 
+    /**
+     * 查询博客评论列表
+     *
+     * @param tbBlogComment 博客评论信息
+     * @return 博客评论集合
+     */
+    @Override
+    public List<BlogComment> selectTbBlogCommentList(BlogComment tbBlogComment) {
+        return blogCommentMapper.selectTbBlogCommentList(tbBlogComment);
+    }
+
     @Override
     public PageResult getCommentsPage(PageQueryUtil pageUtil) {
         List<BlogComment> comments = blogCommentMapper.findBlogCommentList(pageUtil);
@@ -44,7 +55,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Boolean deleteBatch(Integer[] ids) {
+    public Boolean deleteBatch(String[] ids) {
         return blogCommentMapper.deleteBatch(ids) > 0;
     }
 

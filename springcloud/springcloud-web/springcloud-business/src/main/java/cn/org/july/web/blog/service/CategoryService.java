@@ -17,6 +17,22 @@ public interface CategoryService {
      */
     PageResult getBlogCategoryPage(PageQueryUtil pageUtil);
 
+    /**
+     * 查询博客分类列表
+     *
+     * @param tbBlogCategory 博客分类信息
+     * @return 博客分类集合
+     */
+    List<BlogCategory> selectTbBlogCategoryList(BlogCategory tbBlogCategory);
+
+    /**
+     * 查询博客分类信息
+     *
+     * @param categoryId 博客分类ID
+     * @return 博客分类信息
+     */
+    BlogCategory selectTbBlogCategoryById(Integer categoryId);
+
     int getTotalCategories();
 
     /**
@@ -30,7 +46,7 @@ public interface CategoryService {
 
     Boolean updateCategory(Integer categoryId, String categoryName, String categoryIcon);
 
-    Boolean deleteBatch(Integer[] ids);
+    Boolean deleteBatch(String[] ids);
 
     List<BlogCategory> getAllCategories();
 }

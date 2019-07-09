@@ -200,7 +200,7 @@ public class BlogController extends BaseController {
         String newFileName = tempName.toString();
         //创建文件
         File destFile = new File(FileUploadUtils.getDefaultBaseDir() + newFileName);
-        String fileUrl = MyBlogUtils.getHost(new URI(request.getRequestURL() + "")) + "/upload/" + newFileName;
+        String fileUrl = MyBlogUtils.getHost(new URI(request.getRequestURL() + "")) + "/download/" + newFileName;
         File fileDirectory = new File(FileUploadUtils.getDefaultBaseDir());
         try {
             if (!fileDirectory.exists()) {

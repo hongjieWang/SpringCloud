@@ -30,5 +30,21 @@ public interface BlogCategoryMapper {
 
     int getTotalCategories(PageQueryUtil pageUtil);
 
-    int deleteBatch(Integer[] ids);
+    int deleteBatch(String[] ids);
+
+    /**
+     * 查询博客分类列表
+     *
+     * @param tbBlogCategory 博客分类信息
+     * @return 博客分类集合
+     */
+    List<BlogCategory> selectTbBlogCategoryList(BlogCategory tbBlogCategory);
+
+    /**
+     * 查询博客分类信息
+     *
+     * @param categoryId 博客分类ID
+     * @return 博客分类信息
+     */
+    BlogCategory selectTbBlogCategoryById(Integer categoryId);
 }

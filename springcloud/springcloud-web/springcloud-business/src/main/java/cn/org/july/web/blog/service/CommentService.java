@@ -5,6 +5,8 @@ import cn.org.july.web.blog.domain.BlogComment;
 import cn.org.july.web.utils.PageQueryUtil;
 import cn.org.july.web.utils.PageResult;
 
+import java.util.List;
+
 public interface CommentService {
     /**
      * 添加评论
@@ -13,6 +15,14 @@ public interface CommentService {
      * @return
      */
     Boolean addComment(BlogComment blogComment);
+
+    /**
+     * 查询博客评论列表
+     *
+     * @param tbBlogComment 博客评论信息
+     * @return 博客评论集合
+     */
+    List<BlogComment> selectTbBlogCommentList(BlogComment tbBlogComment);
 
     /**
      * 后台管理系统中评论分页功能
@@ -38,7 +48,7 @@ public interface CommentService {
      * @param ids
      * @return
      */
-    Boolean deleteBatch(Integer[] ids);
+    Boolean deleteBatch(String[] ids);
 
     /**
      * 添加回复

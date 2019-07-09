@@ -60,4 +60,8 @@ public class Constants {
      * 排序的方向 "desc" 或者 "asc".
      */
     public static String IS_ASC = "isAsc";
+    /**
+     * 用户目录
+     */
+    public static String HOME_PATH = System.getProperty("user.home");
 }

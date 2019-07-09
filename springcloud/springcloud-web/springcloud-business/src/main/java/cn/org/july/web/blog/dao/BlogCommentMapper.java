@@ -27,5 +27,14 @@ public interface BlogCommentMapper {
 
     int checkDone(Integer[] ids);
 
-    int deleteBatch(Integer[] ids);
+    int deleteBatch(String[] id);
+
+
+    /**
+     * 查询博客评论列表
+     *
+     * @param tbBlogComment 博客评论信息
+     * @return 博客评论集合
+     */
+    List<BlogComment> selectTbBlogCommentList(BlogComment tbBlogComment);
 }

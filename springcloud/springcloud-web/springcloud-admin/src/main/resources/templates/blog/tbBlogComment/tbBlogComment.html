@@ -1,0 +1,169 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="formId">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            评论者名称：<input type="text" name="commentator"/>
+                        </li>
+                        <li>
+                            评论内容：<input type="text" name="commentBody"/>
+                        </li>
+                        <li>
+                            评论时的ip地址：<input type="text" name="commentatorIp"/>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                    class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                    class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+            <a class="btn btn-primary btn-edit disabled" onclick="commentsRepy()"
+               shiro:hasPermission="comments:tbBlogComment:edit">
+                <i class="fa fa-edit"></i> 审核
+            </a>
+            <a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()"
+               shiro:hasPermission="comments:tbBlogComment:remove">
+                <i class="fa fa-remove"></i> 删除
+            </a>
+            <a class="btn btn-warning" onclick="$.table.exportExcel()"
+               shiro:hasPermission="comments:tbBlogComment:export">
+                <i class="fa fa-download"></i> 导出
+            </a>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table" data-mobile-responsive="true"></table>
+        </div>
+    </div>
+</div>
+<div th:include="include :: footer"></div>
+<script th:inline="javascript">
+    var editFlag = [[${@permission.hasPermi('comments:tbBlogComment:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('comments:tbBlogComment:remove')}]];
+    var prefix = ctx + "admin/comments";
+
+    $(function () {
+        var options = {
+            url: prefix + "/list",
+            createUrl: prefix + "/add",
+            updateUrl: prefix + "/edit/{id}",
+            removeUrl: prefix + "/remove",
+            exportUrl: prefix + "/export",
+            modalName: "博客评论",
+            search: false,
+            showExport: true,
+            columns: [{
+                checkbox: true
+            },
+                {
+                    field: 'commentId',
+                    title: '主键id',
+                    visible: false
+                },
+                {
+                    field: 'blogId',
+                    title: '关联的blog主键',
+                    sortable: true
+                },
+                {
+                    field: 'commentator',
+                    title: '评论者名称',
+                    sortable: true
+                },
+                {
+                    field: 'email',
+                    title: '评论人的邮箱',
+                    sortable: true
+                },
+                {
+                    field: 'websiteUrl',
+                    title: '网址',
+                    sortable: true
+                },
+                {
+                    field: 'commentBody',
+                    title: '评论内容',
+                    sortable: true
+                },
+                {
+                    field: 'commentCreateTime',
+                    title: '评论提交时间',
+                    sortable: true
+                },
+                {
+                    field: 'commentStatus',
+                    title: '状态',
+                    sortable: true,
+                    formatter: function (value, item, index) {
+                        if (item.commentStatus == '0') {
+                            return '<span class="label label-success">未审核</span>';
+                        }
+                        else if (item.commentStatus == '1') {
+                            return '<span class="label label-primary">审核通过</span>';
+                        }
+                    }
+                },
+                {
+                    field: 'replyBody',
+                    title: '回复内容',
+                    sortable: true
+                },
+                {
+                    field: 'replyCreateTime',
+                    title: '回复时间',
+                    sortable: true
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.commentId + '\')"><i class="fa fa-edit"></i>回复</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.commentId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+        };
+        $.table.init(options);
+    });
+
+    var getSelectRows = function () {
+        return $.map($('#bootstrap-table').bootstrapTable('getSelections'), function (row) {
+            return row[$.table._option.columns[1].field];
+        });
+    }
+
+    /**
+     * 回复
+     * */
+    function reply(id) {
+
+    }
+
+    /**
+     * 审批
+     */
+    function commentsRepy() {
+        var id = getSelectRows();
+        $.operate.get("/admin/comments/checkDone?ids=" + id);
+        $("#bootstrap-table").bootstrapTable('refresh', {
+            silent: true
+        });
+    }
+
+</script>
+</body>
+</html>

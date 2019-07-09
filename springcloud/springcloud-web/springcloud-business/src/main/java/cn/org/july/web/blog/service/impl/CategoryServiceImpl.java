@@ -29,6 +29,29 @@ public class CategoryServiceImpl implements CategoryService {
         return pageResult;
     }
 
+
+    /**
+     * 查询博客分类列表
+     *
+     * @param tbBlogCategory 博客分类信息
+     * @return 博客分类集合
+     */
+    @Override
+    public List<BlogCategory> selectTbBlogCategoryList(BlogCategory tbBlogCategory) {
+        return blogCategoryMapper.selectTbBlogCategoryList(tbBlogCategory);
+    }
+
+    /**
+     * 查询博客分类信息
+     *
+     * @param categoryId 博客分类ID
+     * @return 博客分类信息
+     */
+    @Override
+    public BlogCategory selectTbBlogCategoryById(Integer categoryId) {
+        return blogCategoryMapper.selectTbBlogCategoryById(categoryId);
+    }
+
     @Override
     public int getTotalCategories() {
         return blogCategoryMapper.getTotalCategories(null);
@@ -54,7 +77,7 @@ public class CategoryServiceImpl implements CategoryService {
             blogCategory.setCategoryIcon(categoryIcon);
             blogCategory.setCategoryName(categoryName);
             //修改分类实体
-            blogMapper.updateBlogCategorys(categoryName, blogCategory.getCategoryId(), new Integer[]{categoryId});
+            blogMapper.updateBlogCategorys(categoryName, blogCategory.getCategoryId(), new String[]{String.valueOf(categoryId)});
             return blogCategoryMapper.updateByPrimaryKeySelective(blogCategory) > 0;
         }
         return false;
@@ -62,7 +85,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public Boolean deleteBatch(Integer[] ids) {
+    public Boolean deleteBatch(String[] ids) {
         if (ids.length < 1) {
             return false;
         }

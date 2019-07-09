@@ -19,6 +19,27 @@
     comment_id, blog_id, commentator, email, website_url, comment_body, comment_create_time, 
     commentator_ip, reply_body, reply_create_time, comment_status, is_deleted
   </sql>
+    <sql id="selectTbBlogCommentVo">
+        select comment_id, blog_id, commentator, email, website_url, comment_body, comment_create_time, commentator_ip, reply_body, reply_create_time, comment_status, is_deleted from tb_blog_comment
+    </sql>
+    <select id="selectTbBlogCommentList" parameterType="BlogComment" resultMap="BaseResultMap">
+        <include refid="selectTbBlogCommentVo"/>
+        <where>
+            <if test="commentId != null "> and comment_id = #{commentId}</if>
+            <if test="blogId != null "> and blog_id = #{blogId}</if>
+            <if test="commentator != null  and commentator != '' "> and commentator = #{commentator}</if>
+            <if test="email != null  and email != '' "> and email = #{email}</if>
+            <if test="websiteUrl != null  and websiteUrl != '' "> and website_url = #{websiteUrl}</if>
+            <if test="commentBody != null  and commentBody != '' "> and comment_body = #{commentBody}</if>
+            <if test="commentCreateTime != null "> and comment_create_time = #{commentCreateTime}</if>
+            <if test="commentatorIp != null  and commentatorIp != '' "> and commentator_ip = #{commentatorIp}</if>
+            <if test="replyBody != null  and replyBody != '' "> and reply_body = #{replyBody}</if>
+            <if test="replyCreateTime != null "> and reply_create_time = #{replyCreateTime}</if>
+            <if test="commentStatus != null "> and comment_status = #{commentStatus}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+
     <select id="findBlogCommentList" parameterType="Map" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>

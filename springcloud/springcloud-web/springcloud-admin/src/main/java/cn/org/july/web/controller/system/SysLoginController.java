@@ -30,7 +30,6 @@ public class SysLoginController extends BaseController {
         if (ServletUtils.isAjaxRequest(request)) {
             return ServletUtils.renderString(response, "{\"code\":\"1\",\"msg\":\"未登录或登录超时。请重新登录\"}");
         }
-
         return "login";
     }
 

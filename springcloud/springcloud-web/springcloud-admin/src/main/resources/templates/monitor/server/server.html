@@ -214,14 +214,14 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr th:each="sysFile : ${server.sysFiles}">
-                                                <td th:text="${sysFile.dirName}">C:\</td>
-                                                <td th:text="${sysFile.sysTypeName}">NTFS</td>
-                                                <td th:text="${sysFile.typeName}">local</td>
-                                                <td th:text="${sysFile.total}">0GB</td>
-                                                <td th:text="${sysFile.free}">0GB</td>
-                                                <td th:text="${sysFile.used}">0GB</td>
-                                                <td th:class="${sysFile.usage gt 80} ? 'text-danger'">[[${sysFile.usage}]]%</td>
+                                            <tr th:each="sysPdfFile : ${server.sysFiles}">
+                                                <td th:text="${sysPdfFile.dirName}">C:\</td>
+                                                <td th:text="${sysPdfFile.sysTypeName}">NTFS</td>
+                                                <td th:text="${sysPdfFile.typeName}">local</td>
+                                                <td th:text="${sysPdfFile.total}">0GB</td>
+                                                <td th:text="${sysPdfFile.free}">0GB</td>
+                                                <td th:text="${sysPdfFile.used}">0GB</td>
+                                                <td th:class="${sysPdfFile.usage gt 80} ? 'text-danger'">[[${sysPdfFile.usage}]]%</td>
                                             </tr>
                                         </tbody>
                                     </table>
