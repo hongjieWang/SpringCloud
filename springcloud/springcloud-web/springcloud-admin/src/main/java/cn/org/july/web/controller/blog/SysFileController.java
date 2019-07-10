@@ -11,6 +11,7 @@ import cn.org.july.web.common.utils.ExcelUtil;
 import cn.org.july.web.core.util.FileUploadUtils;
 import cn.org.july.web.core.web.base.BaseController;
 import cn.org.july.web.utils.MyBlogUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -91,7 +92,6 @@ public class SysFileController extends BaseController {
     public AjaxResult addSave(@RequestParam(name = "file", required = true)
                                       MultipartFile file, HttpServletRequest request) throws IOException, URISyntaxException {
         String pdfName = request.getParameter("pdfName");
-        String pdfType = request.getParameter("pdfType");
         if (file.isEmpty()) {
             return AjaxResult.error("文件上传失败");
         }
@@ -103,9 +103,9 @@ public class SysFileController extends BaseController {
         tempName.append(sdf.format(new Date())).append(r.nextInt(100)).append(suffixName);
         String newFileName = tempName.toString();
         //创建文件
-        File destFile = new File(FileUploadUtils.getDefaultBaseDir() + newFileName);
-        String fileUrl = MyBlogUtils.getHost(new URI(request.getRequestURL() + "")) + "/download/" + newFileName;
-        File fileDirectory = new File(FileUploadUtils.getDefaultBaseDir());
+        File destFile = new File(FileUploadUtils.getDefaultBaseDir().concat(FileUploadUtils.PDFFILEPATH).concat(File.separator) + newFileName);
+        String fileUrl = MyBlogUtils.getHost(new URI(request.getRequestURL() + "")) + "/downloadPdfFile/" + newFileName;
+        File fileDirectory = new File(FileUploadUtils.getDefaultBaseDir().concat(FileUploadUtils.PDFFILEPATH).concat(File.separator));
         try {
             if (!fileDirectory.exists()) {
                 if (!fileDirectory.mkdir()) {
@@ -118,8 +118,8 @@ public class SysFileController extends BaseController {
         file.transferTo(destFile);
         SysPdfFile sysPdfFile = new SysPdfFile();
         sysPdfFile.setPdfName(pdfName);
-        sysPdfFile.setPdfLoaclUrl(FileUploadUtils.getDefaultBaseDir());
-        sysPdfFile.setPdfType(pdfType);
+        sysPdfFile.setPdfLoaclUrl(destFile.getPath());
+        sysPdfFile.setPdfType(suffixName);
         sysPdfFile.setUserId(getSysUser().getUserId().intValue());
         sysPdfFile.setPdfDownLoadUrl(fileUrl);
         return toAjax(sysFileService.insertSysFile(sysPdfFile));
@@ -156,6 +156,11 @@ public class SysFileController extends BaseController {
     @PostMapping("/remove")
     @ResponseBody
     public AjaxResult remove(String ids) {
+        String[] delIds = ids.split(",");
+        for (String id : delIds) {
+            SysPdfFile pdfFile = sysFileService.selectSysFileById(Integer.valueOf(id));
+            FileUtils.deleteQuietly(new File(pdfFile.getPdfLoaclUrl()));
+        }
         return toAjax(sysFileService.deleteSysFileByIds(ids));
     }
 

@@ -45,11 +45,11 @@ public class SysPdfFile extends BaseEntity {
     /**
      * 状态
      */
-    private Boolean isStatus;
+    private Boolean isStatus = true;
     /**
      * 下载次数
      */
-    private Integer downloadNumber;
+    private Integer downloadNumber = 0;
 
     public void setId(Integer id) {
         this.id = id;

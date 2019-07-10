@@ -1,10 +1,15 @@
 package cn.org.july.web.controller.blog;
 
 
+import cn.org.july.web.blog.domain.SysPdfFile;
+import cn.org.july.web.blog.service.ISysPdfFileService;
+import cn.org.july.web.common.base.AjaxResult;
+import cn.org.july.web.common.utils.StringUtils;
 import cn.org.july.web.core.util.FileUploadUtils;
 import cn.org.july.web.utils.MyBlogUtils;
 import cn.org.july.web.utils.Result;
 import cn.org.july.web.utils.ResultGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,6 +31,9 @@ import java.util.Random;
  */
 @Controller
 public class UploadController {
+
+    @Autowired
+    private ISysPdfFileService sysPdfFileService;
 
     @PostMapping({"/upload/file"})
     @ResponseBody
@@ -57,8 +65,13 @@ public class UploadController {
     }
 
     @GetMapping("/download/{fileName}")
-    public void downLoad(@PathVariable("fileName") String fileName, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        File destFile = new File(FileUploadUtils.getDefaultBaseDir() + fileName);
+    public void downLoad(@PathVariable("fileName") String fileName, HttpServletRequest request, String path, HttpServletResponse response) throws IOException {
+        File destFile = null;
+        if (StringUtils.isNotEmpty(path)) {
+            destFile = new File(FileUploadUtils.getDefaultBaseDir().concat(File.separator).concat(path).concat(File.separator) + fileName);
+        } else {
+            destFile = new File(FileUploadUtils.getDefaultBaseDir() + fileName);
+        }
         if (destFile.exists()) {
             response.setContentType("application/force-download");// 设置强制下载不打开
             response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);// 设置文件名
@@ -94,4 +107,32 @@ public class UploadController {
             }
         }
     }
+
+    @GetMapping("/downloadPdfFile/{fileName}")
+    @ResponseBody
+    public AjaxResult downLoadPdfFile(@PathVariable("fileName") String fileName, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String id = request.getParameter("id");
+        SysPdfFile sysPdfFile = null;
+        try {
+            if (StringUtils.isNotEmpty(id)) {
+                sysPdfFile = sysPdfFileService.selectSysFileById(Integer.valueOf(id));
+            }
+            if (null == sysPdfFile) {
+                AjaxResult.error("文件索引错误");
+            }
+            if (!sysPdfFile.getIsStatus()) {
+                return AjaxResult.error("文件不允许下载");
+            }
+            if (sysPdfFile.getDownloadNumber() > 100) {
+                return AjaxResult.error("文件下载次数超限制");
+            }
+            sysPdfFile.setDownloadNumber(sysPdfFile.getDownloadNumber() + 1);
+            sysPdfFileService.updateSysFile(sysPdfFile);
+            this.downLoad(fileName, request, FileUploadUtils.PDFFILEPATH, response);
+            return null;
+        } catch (Exception e) {
+            return AjaxResult.error("服务器异常：" + e);
+        }
+    }
+
 }

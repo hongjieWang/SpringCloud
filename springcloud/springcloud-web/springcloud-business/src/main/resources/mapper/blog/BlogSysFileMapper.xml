@@ -25,13 +25,9 @@
         <where>
             <if test="id != null ">and id = #{id}</if>
             <if test="pdfName != null  and pdfName != '' ">and pdfName = #{pdfName}</if>
-            <if test="pdfDownLoadUrl != null  and pdfDownLoadUrl != '' ">and pdfDownLoadUrl = #{pdfDownLoadUrl}</if>
-            <if test="pdfLoaclUrl != null  and pdfLoaclUrl != '' ">and pdfLoaclUrl = #{pdfLoaclUrl}</if>
             <if test="pdfType != null  and pdfType != '' ">and pdfType = #{pdfType}</if>
             <if test="userId != null ">and userId = #{userId}</if>
             <if test="isDelect != null ">and isDelect = #{isDelect}</if>
-            <if test="isStatus != null ">and isStatus = #{isStatus}</if>
-            <if test="downloadNumber != null ">and downloadNumber = #{downloadNumber}</if>
         </where>
     </select>
 

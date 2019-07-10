@@ -39,7 +39,10 @@ public class FileUploadUtils {
      * 用户目录
      */
     private static String HOME_PATH = System.getProperty("user.home");
-
+    /**
+     * PDF存储路径
+     */
+    public static String PDFFILEPATH = "pdfFile";
     private static int counter = 0;
 
     public static void setDefaultBaseDir(String defaultBaseDir) {
