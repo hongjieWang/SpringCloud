@@ -261,6 +261,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/tag/**", "anon");
         filterChainDefinitionMap.put("/search/**","anon");
         filterChainDefinitionMap.put("/about/**","anon");
+        filterChainDefinitionMap.put("/page/**","anon");
 
         filterChainDefinitionMap.put("/captcha/captchaImage**", "anon");
         // 退出 logout地址，shiro去清除session
