@@ -6,6 +6,8 @@ import cn.org.july.web.blog.domain.BlogLink;
 import cn.org.july.web.blog.service.*;
 import cn.org.july.web.utils.*;
 import cn.org.july.web.vo.BlogDetailVO;
+import org.apache.shiro.cache.Cache;
+import org.apache.shiro.cache.CacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +41,10 @@ public class MyBlogController {
     @Resource
     private CategoryService categoryService;
 
+    @Resource
+    private CacheManager cacheManager;
+
+
     /**
      * 首页
      *
@@ -46,6 +52,13 @@ public class MyBlogController {
      */
     @GetMapping({"/blog"})
     public String index(HttpServletRequest request) {
+        Cache<Object, Object> cache = cacheManager.getCache("myBlogNumber");
+        int blogNumber = 0;
+        if (null != cache.get("number")) {
+            blogNumber = (int) cache.get("number");
+            blogNumber = blogNumber + 1;
+        }
+        cache.put("number", blogNumber);
         return this.page(request, 1);
     }
 
