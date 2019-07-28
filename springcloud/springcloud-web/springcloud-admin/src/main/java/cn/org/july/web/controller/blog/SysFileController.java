@@ -43,7 +43,7 @@ public class SysFileController extends BaseController {
     @Autowired
     private ISysPdfFileService sysFileService;
 
-    @RequiresPermissions("blog:sysFile:view")
+    @RequiresPermissions("blog:sysPdfFile:view")
     @GetMapping()
     public String sysFile() {
         return prefix + "/sysFile";
@@ -52,7 +52,7 @@ public class SysFileController extends BaseController {
     /**
      * 查询文件管理列表
      */
-    @RequiresPermissions("blog:sysFile:list")
+    @RequiresPermissions("blog:sysPdfFile:list")
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(SysPdfFile sysPdfFile) {
@@ -65,7 +65,7 @@ public class SysFileController extends BaseController {
     /**
      * 导出文件管理列表
      */
-    @RequiresPermissions("blog:sysFile:export")
+    @RequiresPermissions("blog:sysPdfFile:export")
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(SysPdfFile sysPdfFile) {
@@ -85,7 +85,7 @@ public class SysFileController extends BaseController {
     /**
      * 新增保存文件管理
      */
-    @RequiresPermissions("blog:sysFile:add")
+    @RequiresPermissions("blog:sysPdfFile:add")
     @Log(title = "文件管理", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
@@ -138,7 +138,7 @@ public class SysFileController extends BaseController {
     /**
      * 修改保存文件管理
      */
-    @RequiresPermissions("blog:sysFile:edit")
+    @RequiresPermissions("blog:sysPdfFile:edit")
     @Log(title = "文件管理", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
@@ -151,7 +151,7 @@ public class SysFileController extends BaseController {
      * 删除文件管理
      * 删除文件管理
      */
-    @RequiresPermissions("blog:sysFile:remove")
+    @RequiresPermissions("blog:sysPdfFile:remove")
     @Log(title = "文件管理", businessType = BusinessType.DELETE)
     @PostMapping("/remove")
     @ResponseBody
