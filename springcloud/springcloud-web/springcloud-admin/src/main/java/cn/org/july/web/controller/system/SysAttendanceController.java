@@ -63,12 +63,7 @@ public class SysAttendanceController extends BaseController {
     @PostMapping("/daka")
     @ResponseBody
     public AjaxResult daka(SysAttendance sysAttendance) {
-        sysAttendance.setClockEndTime(new Date());
-        sysAttendance.setUserName(getLoginName());
-        sysAttendance.setAttendanceNo(getSysUser().getUserName());
-        sysAttendance.setUserId(getSysUser().getUserId().intValue());
-        sysAttendance.setAttendanceName(getSysUser().getDept().getDeptName());
-        isInDate(sysAttendance);
+        sysAttendance = sysAttendanceChange(sysAttendance);
         return toAjax(sysAttendanceService.insertSysAttendance(sysAttendance));
     }
 
@@ -117,7 +112,18 @@ public class SysAttendanceController extends BaseController {
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(SysAttendance sysAttendance) {
+        sysAttendance = sysAttendanceChange(sysAttendance);
         return toAjax(sysAttendanceService.insertSysAttendance(sysAttendance));
+    }
+
+    private SysAttendance sysAttendanceChange(SysAttendance sysAttendance) {
+        sysAttendance.setClockEndTime(new Date());
+        sysAttendance.setUserName(getLoginName());
+        sysAttendance.setAttendanceNo(getSysUser().getUserName());
+        sysAttendance.setUserId(getSysUser().getUserId().intValue());
+        sysAttendance.setAttendanceName(getSysUser().getDept().getDeptName());
+        isInDate(sysAttendance);
+        return sysAttendance;
     }
 
     /**
