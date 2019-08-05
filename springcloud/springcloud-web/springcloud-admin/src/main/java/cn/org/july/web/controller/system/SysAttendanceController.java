@@ -65,6 +65,7 @@ public class SysAttendanceController extends BaseController {
     public AjaxResult daka(SysAttendance sysAttendance) {
         sysAttendance.setClockEndTime(new Date());
         sysAttendance.setUserName(getLoginName());
+        sysAttendance.setAttendanceNo(getSysUser().getUserName());
         sysAttendance.setUserId(getSysUser().getUserId().intValue());
         sysAttendance.setAttendanceName(getSysUser().getDept().getDeptName());
         isInDate(sysAttendance);
@@ -104,7 +105,7 @@ public class SysAttendanceController extends BaseController {
     }
 
     @GetMapping("/markdown")
-    public String getmd(){
+    public String getmd() {
         return "markdown/main";
     }
 

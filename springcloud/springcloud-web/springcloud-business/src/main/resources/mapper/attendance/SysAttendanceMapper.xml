@@ -1,105 +1,107 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.org.july.web.attendance.dao.SysAttendanceMapper">
-    
+
     <resultMap type="SysAttendance" id="SysAttendanceResult">
-        <result property="id"    column="id"    />
-        <result property="attendanceNo"    column="attendanceNo"    />
-        <result property="attendanceName"    column="attendanceName"    />
-        <result property="clockEndTime"    column="clockEndTime"    />
-        <result property="clockStartTime"    column="clockStartTime"    />
-        <result property="projectNumber"    column="projectNumber"    />
-        <result property="subsidizedMeals"    column="subsidizedMeals"    />
-        <result property="traffic"    column="traffic"    />
-        <result property="paidLeave"    column="paidLeave"    />
-        <result property="userId"    column="userId"    />
-        <result property="userName"    column="userName"    />
+        <result property="id" column="id"/>
+        <result property="attendanceNo" column="attendance_no"/>
+        <result property="attendanceName" column="attendance_name"/>
+        <result property="clockEndTime" column="clock_end_time"/>
+        <result property="clockStartTime" column="clock_start_time"/>
+        <result property="projectNumber" column="project_number"/>
+        <result property="subsidizedMeals" column="subsidized_meals"/>
+        <result property="traffic" column="traffic"/>
+        <result property="paidLeave" column="paid_leave"/>
+        <result property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
     </resultMap>
-	
-	<sql id="selectSysAttendanceVo">
-        select id, attendanceNo, attendanceName, clockEndTime, clockStartTime, projectNumber, subsidizedMeals, traffic, paidLeave, userId, userName from sys_attendance
+
+    <sql id="selectSysAttendanceVo">
+        select id, attendance_no, attendance_name, clock_end_time, clock_start_time, project_number, subsidized_meals,
+        traffic, paid_leave, user_id, user_name from sys_attendance
     </sql>
-	
+
     <select id="selectSysAttendanceList" parameterType="SysAttendance" resultMap="SysAttendanceResult">
         <include refid="selectSysAttendanceVo"/>
-        <where>  
-            <if test="id != null "> and id = #{id}</if>
-             <if test="attendanceNo != null  and attendanceNo != '' "> and attendanceNo = #{attendanceNo}</if>
-             <if test="attendanceName != null  and attendanceName != '' "> and attendanceName = #{attendanceName}</if>
-             <if test="clockEndTime != null "> and clockEndTime = #{clockEndTime}</if>
-             <if test="clockStartTime != null "> and clockStartTime = #{clockStartTime}</if>
-             <if test="projectNumber != null  and projectNumber != '' "> and projectNumber = #{projectNumber}</if>
-             <if test="subsidizedMeals != null  and subsidizedMeals != '' "> and subsidizedMeals = #{subsidizedMeals}</if>
-             <if test="traffic != null  and traffic != '' "> and traffic = #{traffic}</if>
-             <if test="paidLeave != null  and paidLeave != '' "> and paidLeave = #{paidLeave}</if>
-             <if test="userId != null "> and userId = #{userId}</if>
-             <if test="userName != null  and userName != '' "> and userName = #{userName}</if>
-         </where>
+        <where>
+            <if test="id != null ">and id = #{id}</if>
+            <if test="attendanceNo != null  and attendanceNo != '' ">and attendance_no = #{attendanceNo}</if>
+            <if test="attendanceName != null  and attendanceName != '' ">and attendance_name = #{attendanceName}</if>
+            <if test="clockEndTime != null ">and clock_end_time = #{clockEndTime}</if>
+            <if test="clockStartTime != null ">and clockStartTime = #{clockStartTime}</if>
+            <if test="projectNumber != null  and projectNumber != '' ">and project_number = #{projectNumber}</if>
+            <if test="subsidizedMeals != null  and subsidizedMeals != '' ">and subsidized_meals = #{subsidizedMeals}
+            </if>
+            <if test="traffic != null  and traffic != '' ">and traffic = #{traffic}</if>
+            <if test="paidLeave != null  and paidLeave != '' ">and paid_leave = #{paidLeave}</if>
+            <if test="userId != null ">and user_id = #{userId}</if>
+            <if test="userName != null  and userName != '' ">and user_name = #{userName}</if>
+        </where>
     </select>
-    
+
     <select id="selectSysAttendanceById" parameterType="Integer" resultMap="SysAttendanceResult">
         <include refid="selectSysAttendanceVo"/>
         where id = #{id}
     </select>
-        
+
     <insert id="insertSysAttendance" parameterType="SysAttendance">
         insert into sys_attendance
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="id != null  ">id,</if>
-			<if test="attendanceNo != null  and attendanceNo != ''  ">attendanceNo,</if>
-			<if test="attendanceName != null  and attendanceName != ''  ">attendanceName,</if>
-			<if test="clockEndTime != null  ">clockEndTime,</if>
-			<if test="clockStartTime != null  ">clockStartTime,</if>
-			<if test="projectNumber != null  and projectNumber != ''  ">projectNumber,</if>
-			<if test="subsidizedMeals != null  and subsidizedMeals != ''  ">subsidizedMeals,</if>
-			<if test="traffic != null  and traffic != ''  ">traffic,</if>
-			<if test="paidLeave != null  and paidLeave != ''  ">paidLeave,</if>
-			<if test="userId != null  ">userId,</if>
-			<if test="userName != null  and userName != ''  ">userName,</if>
-         </trim>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  ">id,</if>
+            <if test="attendanceNo != null  and attendanceNo != ''  ">attendance_no,</if>
+            <if test="attendanceName != null  and attendanceName != ''  ">attendance_name,</if>
+            <if test="clockEndTime != null  ">clock_end_time,</if>
+            <if test="clockStartTime != null  ">clock_start_time,</if>
+            <if test="projectNumber != null  and projectNumber != ''  ">project_number,</if>
+            <if test="subsidizedMeals != null  and subsidizedMeals != ''  ">subsidized_meals,</if>
+            <if test="traffic != null  and traffic != ''  ">traffic,</if>
+            <if test="paidLeave != null  and paidLeave != ''  ">paid_leave,</if>
+            <if test="userId != null  ">user_id,</if>
+            <if test="userName != null  and userName != ''  ">user_name,</if>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="id != null  ">#{id},</if>
-			<if test="attendanceNo != null  and attendanceNo != ''  ">#{attendanceNo},</if>
-			<if test="attendanceName != null  and attendanceName != ''  ">#{attendanceName},</if>
-			<if test="clockEndTime != null  ">#{clockEndTime},</if>
-			<if test="clockStartTime != null  ">#{clockStartTime},</if>
-			<if test="projectNumber != null  and projectNumber != ''  ">#{projectNumber},</if>
-			<if test="subsidizedMeals != null  and subsidizedMeals != ''  ">#{subsidizedMeals},</if>
-			<if test="traffic != null  and traffic != ''  ">#{traffic},</if>
-			<if test="paidLeave != null  and paidLeave != ''  ">#{paidLeave},</if>
-			<if test="userId != null  ">#{userId},</if>
-			<if test="userName != null  and userName != ''  ">#{userName},</if>
-         </trim>
+            <if test="id != null  ">#{id},</if>
+            <if test="attendanceNo != null  and attendanceNo != ''  ">#{attendanceNo},</if>
+            <if test="attendanceName != null  and attendanceName != ''  ">#{attendanceName},</if>
+            <if test="clockEndTime != null  ">#{clockEndTime},</if>
+            <if test="clockStartTime != null  ">#{clockStartTime},</if>
+            <if test="projectNumber != null  and projectNumber != ''  ">#{projectNumber},</if>
+            <if test="subsidizedMeals != null  and subsidizedMeals != ''  ">#{subsidizedMeals},</if>
+            <if test="traffic != null  and traffic != ''  ">#{traffic},</if>
+            <if test="paidLeave != null  and paidLeave != ''  ">#{paidLeave},</if>
+            <if test="userId != null  ">#{userId},</if>
+            <if test="userName != null  and userName != ''  ">#{userName},</if>
+        </trim>
     </insert>
-	 
+
     <update id="updateSysAttendance" parameterType="SysAttendance">
         update sys_attendance
         <trim prefix="SET" suffixOverrides=",">
-            <if test="attendanceNo != null  and attendanceNo != ''  ">attendanceNo = #{attendanceNo},</if>
-            <if test="attendanceName != null  and attendanceName != ''  ">attendanceName = #{attendanceName},</if>
-            <if test="clockEndTime != null  ">clockEndTime = #{clockEndTime},</if>
-            <if test="clockStartTime != null  ">clockStartTime = #{clockStartTime},</if>
-            <if test="projectNumber != null  and projectNumber != ''  ">projectNumber = #{projectNumber},</if>
-            <if test="subsidizedMeals != null  and subsidizedMeals != ''  ">subsidizedMeals = #{subsidizedMeals},</if>
+            <if test="attendanceNo != null  and attendanceNo != ''  ">attendance_no = #{attendanceNo},</if>
+            <if test="attendanceName != null  and attendanceName != ''  ">attendance_name = #{attendanceName},</if>
+            <if test="clockEndTime != null  ">clock_end_time = #{clockEndTime},</if>
+            <if test="clockStartTime != null  ">clock_start_time = #{clockStartTime},</if>
+            <if test="projectNumber != null  and projectNumber != ''  ">project_number = #{projectNumber},</if>
+            <if test="subsidizedMeals != null  and subsidizedMeals != ''  ">subsidized_meals = #{subsidizedMeals},</if>
             <if test="traffic != null  and traffic != ''  ">traffic = #{traffic},</if>
-            <if test="paidLeave != null  and paidLeave != ''  ">paidLeave = #{paidLeave},</if>
-            <if test="userId != null  ">userId = #{userId},</if>
-            <if test="userName != null  and userName != ''  ">userName = #{userName},</if>
+            <if test="paidLeave != null  and paidLeave != ''  ">paid_leave = #{paidLeave},</if>
+            <if test="userId != null  ">user_id = #{userId},</if>
+            <if test="userName != null  and userName != ''  ">user_name = #{userName},</if>
         </trim>
         where id = #{id}
     </update>
 
-	<delete id="deleteSysAttendanceById" parameterType="Integer">
+    <delete id="deleteSysAttendanceById" parameterType="Integer">
         delete from sys_attendance where id = #{id}
     </delete>
-	
+
     <delete id="deleteSysAttendanceByIds" parameterType="String">
-        delete from sys_attendance where id in 
+        delete from sys_attendance where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
-    
+
 </mapper>
