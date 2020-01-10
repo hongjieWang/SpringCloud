@@ -40,7 +40,7 @@ import java.util.Random;
 public class SysFileController extends BaseController {
     private String prefix = "blog/sysFile";
 
-    
+
     @Autowired
     private ISysPdfFileService sysFileService;
 

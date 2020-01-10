@@ -1,7 +1,11 @@
 # 开发环境配置
 server:
+  ssl:
+    key-store: classpath:julywhj.pfx
+    key-store-password: 9qEtGoJ8
+    key-store-type: PKCS12
   # 服务端口
-  port: 8899
+  port: 443
   servlet:
     # 项目contextPath
     context-path: /
