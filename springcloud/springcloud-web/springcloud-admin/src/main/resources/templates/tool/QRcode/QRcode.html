@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.pollix.at/thymeleaf/shiro ">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link th:href="@{/ruoyi/css/ry-ui.css}" rel="stylesheet"/>
+<link th:href="@{/ajax/libs/datapicker/datepicker3.css}" rel="stylesheet"/>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>批量生成二维码</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="#">基本</a>
+                            </li>
+                            <li><a href="#">其他</a>
+                            </li>
+                        </ul>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <form role="form" class="form-horizontal m-t">
+                        <div class="form-group ">
+                            <label class="col-sm-3 control-label">批量二维码开始范围：</label>
+                            <div class="col-sm-5">
+                                <input type="text" name="start" class="form-control" placeholder="请输入数字">
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+                            <label class="col-sm-3 control-label">批量二维码截至范围：</label>
+                            <div class="col-sm-5">
+                                <input type="text" name="end" class="form-control" placeholder="请输入数字">
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+                            <label class="col-sm-3 control-label">二维码大小：</label>
+                            <div class="col-sm-5">
+                                <input type="text" name="size" class="form-control" placeholder="请输入数字" th:value="100">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group ">
+                            <label class="col-sm-3 control-label">纯文本：</label>
+
+                            <div class="col-sm-9">
+                                <p class="form-control-static">这里是纯文字信息</p>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-sm-3 control-label">下载编码：</label>
+                            <div class="col-sm-5">
+                                <input type="text" name="downCode" id="downCode" class="form-control"
+                                       placeholder="请输入下载编码">
+                            </div>
+                        </div>
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group ">
+                            <div class="col-sm-12 col-sm-offset-3">
+                                <button onclick="createQrCode()" class="btn btn-primary" type="button"> 生成</button>
+                                <button onclick="downQrCode()" class="btn btn-danger" type="button"><a href=""
+                                                                                                       id="link"></a>下载
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include :: footer"></div>
+<script th:src="@{/js/jquery-ui-1.10.4.min.js}"></script>
+<script th:src="@{/ajax/libs/iCheck/icheck.min.js}"></script>
+<script th:src="@{/ajax/libs//datapicker/bootstrap-datepicker.js}"></script>
+<script th:src="@{/ajax/libs/beautifyhtml/beautifyhtml.js}"></script>
+<script>
+    var ctx = getRootPath();
+
+    function getRootPath() {
+        var curPath = window.document.location.href;
+        var pathName = window.document.location.pathname;
+        var pos = curPath.indexOf(pathName);
+        var localhostPath = curPath.substring(0, pos);
+        var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+        return (localhostPath + projectName);
+    }
+
+    function createQrCode() {
+        var start = $.common.trim($("input[name='start']").val());
+        var end = $.common.trim($("input[name='end']").val());
+        var size = $.common.trim($("input[name='size']").val());
+        var reg = /^[0-9]*$/;
+        if (!reg.test(start) || !reg.test(end) || !reg.test(size)) {
+            $.modal.alert("请输入有效的数字");
+            return
+        }
+
+        if ('' == start || '' == end) {
+            $.modal.alert("二维码生成范围不能为空")
+            return
+        }
+        if (end < start) {
+            $.modal.alert("结束范围小于开始范围请重新输入")
+            return
+        }
+        $.modal.alert("下载编码生成后，点击下载按钮")
+        $.ajax({
+            type: "post",
+            url: ctx + "/tool/createCode",
+            data: {"start": start, "end": end, "size": size},
+            dataType: "json",
+            success: function (data) {
+                $("#downCode").attr("value", data.downCode);
+                $.modal.alertSuccess("二维码生成成功，请下载！")
+            }
+        });
+    }
+
+    function downQrCode() {
+        var downCode = $.common.trim($("input[name='downCode']").val());
+        var a = document.createElement('a');
+        a.setAttribute('href', ctx + '/download/' + downCode);
+        a.setAttribute('target', '_blank');
+        a.setAttribute('id', 'js_a');
+        //防止反复添加
+        if (document.getElementById('js_a')) {
+            document.body.removeChild(document.getElementById('js_a'));
+        }
+        document.body.appendChild(a);
+        a.click();
+    }
+</script>
+</body>
+</html>

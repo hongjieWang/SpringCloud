@@ -258,6 +258,7 @@ public class ShiroConfig {
 
         //blog过滤资源 ： 没有缓存会刷数据库
         filterChainDefinitionMap.put("/blog/**", "anon");
+        filterChainDefinitionMap.put("/tool/**", "anon");
         filterChainDefinitionMap.put("/tag/**", "anon");
         filterChainDefinitionMap.put("/search/**","anon");
         filterChainDefinitionMap.put("/about/**","anon");
